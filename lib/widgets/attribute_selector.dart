@@ -10,30 +10,32 @@ class AttributeSelector extends StatefulWidget {
 }
 
 class _AttributeSelectorState extends State<AttributeSelector> {
-  final Map<String, String> selection = {};
+  final Map<int, int> selection = {};
 
   List<ElevatedButton> createAttributeButtons(BuildContext context) {
-    return plantAttributes.map(
+    return attributeTypes.map(
       (attribute) {
-        final children = [Text(attribute)];
-        final value = selection[attribute];
-        if (value != null) {
-          children.add(Text(value));
+        final children = [Text(attribute['name'] as String)];
+        final attributeId = attribute['id'] as int;
+        final a2Id = selection[attributeId];
+        if (a2Id != null) {
+          final attribute2 = attributeValues.firstWhere((e) => (e['id'] as int) == a2Id)['name'] as String;
+          children.add(Text(attribute2));
         }
         return ElevatedButton(
           onPressed: () async {
             var result = await showDialog(
               context: context,
               builder: (context) {
-                return AttributeDialog();
+                return AttributeDialog(attribute['id'] as int);
               },
             );
 
             setState(() {
-              if (selection[attribute] == result) {
-                selection.remove(attribute);
+              if (selection[attributeId] == result) {
+                selection.remove(attributeId);
               } else {
-                selection[attribute] = result;
+                selection[attributeId] = result;
               }
             });
           },
