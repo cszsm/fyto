@@ -3,6 +3,10 @@ import 'package:fyto/data/plant_attributes.dart';
 import 'package:fyto/widgets/attribute_dialog.dart';
 
 class AttributeSelector extends StatefulWidget {
+  final Function onSelectionChanged;
+
+  AttributeSelector(this.onSelectionChanged);
+
   @override
   State<StatefulWidget> createState() {
     return _AttributeSelectorState();
@@ -19,7 +23,8 @@ class _AttributeSelectorState extends State<AttributeSelector> {
         final attributeId = attribute['id'] as int;
         final a2Id = selection[attributeId];
         if (a2Id != null) {
-          final attribute2 = attributeValues.firstWhere((e) => (e['id'] as int) == a2Id)['name'] as String;
+          final attribute2 = attributeValues
+              .firstWhere((e) => (e['id'] as int) == a2Id)['name'] as String;
           children.add(Text(attribute2));
         }
         return ElevatedButton(
@@ -38,6 +43,8 @@ class _AttributeSelectorState extends State<AttributeSelector> {
                 selection[attributeId] = result;
               }
             });
+
+            widget.onSelectionChanged(selection);
           },
           child: Column(
             children: children,

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fyto/models/plant.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
+
+import 'data/plant_attributes.dart';
+import 'utils/plant_filter.utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,15 +43,57 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String text = '';
+
+  void _filterPlants(Map<int, int> selection) {
+    final criteria = PlantAttributes(
+        flower: selection[11],
+        leafShape: selection[12],
+        leafEdge: selection[13],
+        leafClamp: selection[14],
+        flowerShape: selection[21],
+        flowerColour: selection[22],
+        stemShape: selection[23],
+        crustPattern: selection[31],
+        crustColour: selection[32],
+        crop: selection[33]);
+    final r = filterPlants(criteria, plants);
+    setState(() {
+      if (r.length > 1) {
+        text = 'found ${r.length} plants';
+      } else if (r.length == 1) {
+        text = r[0].name;
+      } else {
+        text = 'there\'s no such plant';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: AttributeSelector(),
+    final appBar = AppBar(
+      // Here we take the value from the MyHomePage object that was created by
+      // the App.build method, and use it to set our appbar title.
+      title: Text(widget.title),
     );
+
+    final availableHeigth = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        appBar.preferredSize.height;
+
+    return Scaffold(
+        appBar: appBar,
+        body: Column(
+          children: [
+            Container(
+              child: AttributeSelector(_filterPlants),
+              height: availableHeigth * 0.9,
+            ),
+            Container(
+              child: Text(text),
+              height: availableHeigth * 0.1,
+            )
+          ],
+        ));
   }
 }
