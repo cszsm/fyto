@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fyto/data/plant_attributes.dart';
+import 'package:fyto/data/plant_attribute_types.dart';
+import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/widgets/attribute_dialog.dart';
 
 class AttributeSelector extends StatefulWidget {
   final Function onSelectionChanged;
 
-  AttributeSelector(this.onSelectionChanged);
+  const AttributeSelector(this.onSelectionChanged);
 
   @override
   State<StatefulWidget> createState() {
