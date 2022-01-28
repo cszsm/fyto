@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fyto/data/plant_attributes.dart';
 import 'package:fyto/widgets/attribute_dialog.dart';
 
@@ -19,7 +20,7 @@ class _AttributeSelectorState extends State<AttributeSelector> {
   List<ElevatedButton> createAttributeButtons(BuildContext context) {
     return attributeTypes.map(
       (attribute) {
-        final children = [Text(attribute['name'] as String)];
+        final List<Widget> children = [Text(attribute['name'] as String)];
         final attributeId = attribute['id'] as int;
         final a2Id = selection[attributeId];
         if (a2Id != null) {
@@ -27,6 +28,12 @@ class _AttributeSelectorState extends State<AttributeSelector> {
               .firstWhere((e) => (e['id'] as int) == a2Id)['name'] as String;
           children.add(Text(attribute2));
         }
+        children.add(SvgPicture.asset(
+          'assets/images/viragzat_kunkor.svg',
+          width: 50,
+          height: 50,
+        ));
+
         return ElevatedButton(
           onPressed: () async {
             var result = await showDialog(
