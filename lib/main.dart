@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
 
-import 'data/plant_attributes.dart';
+import 'data/plants.dart';
 import 'utils/plant_filter.utils.dart';
 
 void main() {
@@ -46,23 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
   String text = '';
 
   void _filterPlants(Map<int, int> selection) {
-    final criteria = PlantAttributes(
-        flower: selection[11],
-        leafShape: selection[12],
-        leafEdge: selection[13],
-        leafClamp: selection[14],
-        flowerShape: selection[21],
-        flowerColour: selection[22],
-        stemShape: selection[23],
-        crustPattern: selection[31],
-        crustColour: selection[32],
-        crop: selection[33]);
-    final r = filterPlants(criteria, plants);
+    final criteria = PlantAttributes(selection);
+    final p = plants.map((e) => Plant.fromRaw(e)).toList();
+    final r = filterPlants(criteria, p);
     setState(() {
       if (r.length > 1) {
         text = 'found ${r.length} plants';
       } else if (r.length == 1) {
-        text = r[0].name;
+        text = r[0].name!;
       } else {
         text = 'there\'s no such plant';
       }
@@ -85,11 +76,11 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: appBar,
         body: Column(
           children: [
-            Container(
+            SizedBox(
               child: AttributeSelector(_filterPlants),
               height: availableHeigth * 0.9,
             ),
-            Container(
+            SizedBox(
               child: Text(text),
               height: availableHeigth * 0.1,
             )

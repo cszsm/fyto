@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/data/plant_attributes.dart';
 
 class AttributeDialog extends StatelessWidget {
   final int attributeId;
 
-  AttributeDialog(this.attributeId);
+  const AttributeDialog(this.attributeId);
 
   List<ElevatedButton> createAttributeValueButtons(context) {
-    final attributes =
-        pa.firstWhere((e) => (e['type'] as int) == attributeId)['attributes']
-            as List<int>;
+    final attributes = plantAttributes.firstWhere(
+        (e) => (e['type'] as int) == attributeId)['attributes'] as List<int>;
     return attributes.map((attribute) {
-      final attributeName =
-          attributeValues.firstWhere((e) => (e['id'] as int) == attribute)['name'] as String;
+      final attributeName = attributeValues
+          .firstWhere((e) => (e['id'] as int) == attribute)['name'] as String;
       return ElevatedButton(
         onPressed: () {
           Navigator.of(context).pop(attribute);
