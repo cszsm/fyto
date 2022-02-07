@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
+import 'package:fyto/widgets/plant_details.dart';
 
 import 'data/plants.dart';
-import 'utils/plant_filter.utils.dart';
+import 'utils/utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,19 +44,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String text = '';
+  List<Plant> foundPlants = [];
+  String text = 'select an attribute';
+  bool isPlantFound = false;
 
   void _filterPlants(Map<int, int> selection) {
     final criteria = PlantAttributes(selection);
     final p = plants.map((e) => Plant.fromRaw(e)).toList();
-    final r = filterPlants(criteria, p);
+    foundPlants = filterPlants(criteria, p);
     setState(() {
-      if (r.length > 1) {
-        text = 'found ${r.length} plants';
-      } else if (r.length == 1) {
-        text = r[0].name!;
+      if (foundPlants.length > 1) {
+        text = 'found ${foundPlants.length} plants';
+        isPlantFound = false;
+      } else if (foundPlants.length == 1) {
+        text = foundPlants[0].name;
+        isPlantFound = true;
       } else {
         text = 'there\'s no such plant';
+        isPlantFound = false;
       }
     });
   }
@@ -80,9 +86,21 @@ class _MyHomePageState extends State<MyHomePage> {
               child: AttributeSelector(_filterPlants),
               height: availableHeigth * 0.9,
             ),
-            SizedBox(
-              child: Text(text),
+            Container(
+              child: OutlinedButton(
+                onPressed: isPlantFound
+                    ? () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    PlantDetails(foundPlants[0])));
+                      }
+                    : null,
+                child: Text(text),
+              ),
               height: availableHeigth * 0.1,
+              padding: const EdgeInsets.all(10),
             )
           ],
         ));
