@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
 import 'package:fyto/widgets/plant_details.dart';
+import 'package:fyto/widgets/result_selector_dialog.dart';
 
 import 'data/plants.dart';
 import 'utils/utils.dart';
@@ -96,7 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                 builder: (context) =>
                                     PlantDetails(foundPlants[0])));
                       }
-                    : null,
+                    : () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return ResultSelectorDialog(foundPlants);
+                            });
+                      },
                 child: Text(text),
               ),
               height: availableHeigth * 0.1,
