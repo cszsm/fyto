@@ -14,7 +14,7 @@ def to_attribute_id(attribute):
     return list(filter(lambda x: x['name'] == attribute, attribute_values))[0]['id']
 
 
-def to_attribute_ids(raw):
+def to_attribute_id_object(raw):
     index_id_paring = [
         [2, '11'], [3, '12'], [4, '13'], [5, '14'],
         [6, '21'], [7, '22'], [8, '23'],
@@ -24,6 +24,10 @@ def to_attribute_ids(raw):
     for index, id in index_id_paring:
         if raw[index] != '':
             attributes[id] = to_attribute_id(raw[index])
+
+    if len(attributes) == 0:
+        # to ensure type safety in dart in case of an empty attribute list
+        attributes = {'': ''}
     return attributes
 
 
@@ -31,16 +35,11 @@ def to_object(raw):
     plant = {}
     plant['name'] = raw[0]
     plant['latinName'] = raw[1]
-    plant['attributes'] = to_attribute_ids(raw)
+    plant['attributes'] = to_attribute_id_object(raw)
     plant['description'] = raw[12]
     return plant
 
 
-test_plants = [
-    to_object(raw_plants[12]),
-    to_object(raw_plants[13]),
-    to_object(raw_plants[26])
-]
-
 with open('utils/plants.json', 'w') as plants_json:
-    json.dump(test_plants, plants_json, ensure_ascii=False)
+    plant_objects = list(map(to_object, raw_plants[3:]))
+    json.dump(plant_objects, plants_json, ensure_ascii=False)
