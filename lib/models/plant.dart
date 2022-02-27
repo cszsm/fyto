@@ -1,5 +1,5 @@
 class PlantAttributes {
-  final Map<int, int> attributes;
+  final Map<String, String> attributes;
 
   const PlantAttributes(this.attributes);
 }
@@ -20,7 +20,7 @@ class Plant extends PlantAttributes {
       : name = raw['name'] as String,
         latinName = raw['latinName'] as String,
         description = raw['description'] as String,
-        super(raw['attributes'] as Map<int, int>);
+        super(raw['attributes'] as Map<String, String>);
 
   bool isFit(PlantAttributes criteria) {
     return criteria.attributes.keys.every((attributeType) {
