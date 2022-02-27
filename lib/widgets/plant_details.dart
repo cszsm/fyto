@@ -7,26 +7,25 @@ class PlantDetails extends StatelessWidget {
 
   PlantDetails(this.plant);
 
+  List<Widget> _listAttributes() {
+    return plant.attributes.entries.map((e) {
+      String attributeType = resolveAttributeType(e.key);
+      String attributeValue = resolveAttributeValue(e.value);
+      return Text('$attributeType: $attributeValue');
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> listAttributes() {
-      return plant.attributes.entries.map((e) {
-        String attributeType = resolveAttributeType(e.key);
-        String attributeValue = resolveAttributeValue(e.value);
-        return Text('$attributeType: $attributeValue');
-      }).toList();
-    }
-
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
           Image.asset('assets/images/flower.jpg'),
           Text(plant.name),
           Text(plant.latinName),
-          ...listAttributes(),
+          ..._listAttributes(),
           Text(plant.description),
         ],
-        crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
