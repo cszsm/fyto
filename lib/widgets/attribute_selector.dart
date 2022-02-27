@@ -16,17 +16,17 @@ class AttributeSelector extends StatefulWidget {
 }
 
 class _AttributeSelectorState extends State<AttributeSelector> {
-  final Map<int, int> selection = {};
+  final Map<String, String> selection = {};
 
   List<ElevatedButton> createAttributeButtons(BuildContext context) {
     return attributeTypes.map(
       (attribute) {
         final List<Widget> children = [Text(attribute['name'] as String)];
-        final attributeId = attribute['id'] as int;
+        final attributeId = attribute['id'] as String;
         final a2Id = selection[attributeId];
         if (a2Id != null) {
           final attribute2 = attributeValues
-              .firstWhere((e) => (e['id'] as int) == a2Id)['name'] as String;
+              .firstWhere((e) => (e['id'] as String) == a2Id)['name'] as String;
           children.add(Text(attribute2));
         }
         children.add(SvgPicture.asset(
@@ -40,7 +40,7 @@ class _AttributeSelectorState extends State<AttributeSelector> {
             var result = await showDialog(
               context: context,
               builder: (context) {
-                return AttributeDialog(attribute['id'] as int);
+                return AttributeDialog(attribute['id'] as String);
               },
             );
 

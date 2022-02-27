@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String text = 'select an attribute';
   bool isPlantFound = false;
 
-  void _filterPlants(Map<int, int> selection) {
+  void _filterPlants(Map<String, String> selection) {
     final criteria = PlantAttributes(selection);
     final p = plants.map((e) => Plant.fromRaw(e)).toList();
     foundPlants = filterPlants(criteria, p);
