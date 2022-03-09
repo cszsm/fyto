@@ -1,0 +1,29 @@
+name: GitHub Actions
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Setup Java version
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '2.8.1'
+      - run: flutter pub get
+      - run: flutter build apk --build-number ${{github.run_number}}
+      - name: Upload the artifact to App Center
+        uses: wzieba/AppCenter-Github-Action@v1
+        with:
+          appName: cszsm/Fyto
+          token: ${{secrets.APP_CENTER_TOKEN_ANDROID}}
+          group: Testers
+          file: build/app/outputs/flutter-apk/app-release.apk
+          debug: true
