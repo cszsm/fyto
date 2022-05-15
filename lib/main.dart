@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
+import 'package:fyto/services/image_loader.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
 import 'package:fyto/widgets/plant_details.dart';
 import 'package:fyto/widgets/result_selector_dialog.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'data/plants.dart';
 import 'utils/utils.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -73,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
       title: Text(widget.title),
+      actions: [
+        OutlinedButton(
+          onPressed: () {
+            load();
+          },
+          child: Text('download'),
+        )
+      ],
     );
 
     final availableHeigth = MediaQuery.of(context).size.height -

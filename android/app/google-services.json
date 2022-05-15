@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206518267891",
+    "project_id": "fytowm",
+    "storage_bucket": "fytowm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206518267891:android:68426229e7b30af1d76c86",
+        "android_client_info": {
+          "package_name": "com.example.fyto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206518267891-uu3q86nenrjbo3etpedigho0i9h67jre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWnqu2eLYz6OlU0fi1_IYYC4Jl3g13YIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206518267891-uu3q86nenrjbo3etpedigho0i9h67jre.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
