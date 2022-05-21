@@ -39,6 +39,7 @@ dependencies:
   firebase_core: ^1.12.0
   firebase_storage: ^10.2.8
   path_provider: ^2.0.9
+  flutter_archive: ^5.0.0
 
 dev_dependencies:
   flutter_test:
