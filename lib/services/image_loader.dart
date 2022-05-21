@@ -1,22 +1,66 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:flutter_archive/flutter_archive.dart';
 
-Future<void> load() async {
-  final appDocDir = await getApplicationDocumentsDirectory();
-  final filePath = '${appDocDir.path}/plants.zip';
+class ImageLoader {
+  Directory applicationDirectory;
+  late File zipFile;
+  late Directory plantsDirectory;
 
-  appDocDir.list().forEach((element) {print(element);});
+  ImageLoader(this.applicationDirectory) {
+    final zipFilePath = '${applicationDirectory.path}/plants.zip';
+    zipFile = File(zipFilePath);
 
-  // final dir = Directory(appDocDir.path);
-  // final r = await dir.create(recursive: true);
+    final plantsDirectoryPath = '${applicationDirectory.path}/images/plants';
+    plantsDirectory = Directory(plantsDirectoryPath);
+  }
 
-  final file = File(filePath);
-  final ref = FirebaseStorage.instance.refFromURL('gs://fytowm.appspot.com/public/plants.zip');
+  Future<void> _downloadZip() async {
+    final ref = FirebaseStorage.instance
+        .refFromURL('gs://fytowm.appspot.com/public/plants.zip');
 
-  final downloadTask = ref.writeToFile(file);
-  // downloadTask.snapshotEvents.listen((event) {
-  //   print(event);
-  // });
+    final completer = Completer();
+
+    final downloadTask = ref.writeToFile(zipFile);
+    downloadTask.snapshotEvents.listen((event) {
+      switch (event.state) {
+        case TaskState.running:
+        case TaskState.paused:
+          break;
+        case TaskState.success:
+        case TaskState.canceled:
+        case TaskState.error:
+          completer.complete();
+          break;
+      }
+    });
+
+    return completer.future;
+  }
+
+  Future<void> _unzip() async {
+    try {
+      await ZipFile.extractToDirectory(
+          zipFile: zipFile, destinationDir: plantsDirectory);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> download() async {
+    await _downloadZip();
+    await _unzip();
+    await zipFile.delete();
+
+    await applicationDirectory.list().forEach((element) {
+      print(element);
+    });
+  }
+
+  isDownloadNeeded() async {
+    final exists = await plantsDirectory.exists();
+    return !exists;
+  }
 }

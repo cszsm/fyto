@@ -5,6 +5,7 @@ import 'package:fyto/widgets/attribute_selector.dart';
 import 'package:fyto/widgets/plant_details.dart';
 import 'package:fyto/widgets/result_selector_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'data/plants.dart';
 import 'utils/utils.dart';
@@ -80,8 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
       title: Text(widget.title),
       actions: [
         OutlinedButton(
-          onPressed: () {
-            load();
+          onPressed: () async {
+            final directory = await getApplicationDocumentsDirectory();
+            final loader = ImageLoader(directory);
+            final needed = await loader.isDownloadNeeded();
+            if (needed) {
+              print('download needed');
+              loader.download();
+            } else {
+              print('download not needed');
+            }
           },
           child: Text('download'),
         )
