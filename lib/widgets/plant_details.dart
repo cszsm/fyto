@@ -45,7 +45,7 @@ class _PlantDetailsState extends State<PlantDetails> {
     });
   }
 
-  Future<Image> _getImage() async {
+  Future<Image?> _getImage() async {
     final Directory applicationDirectory =
         await getApplicationDocumentsDirectory();
     final String plantDirectoryName =
@@ -53,15 +53,19 @@ class _PlantDetailsState extends State<PlantDetails> {
     final String plantDirectoryPath =
         '${applicationDirectory.path}/images/plants/$plantDirectoryName';
     final Directory plantDirectory = Directory(plantDirectoryPath);
-    final File plantImage = (await plantDirectory.list().first) as File;
-    return Image.file(plantImage);
+    try {
+      final File plantImage = (await plantDirectory.list().first) as File;
+      return Image.file(plantImage);
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getImage(),
-      builder: (context, AsyncSnapshot<Image> snapshot) => Scaffold(
+      builder: (context, AsyncSnapshot<Image?> snapshot) => Scaffold(
         // TODO: stack's probably not needed
         body: Stack(
           children: [
