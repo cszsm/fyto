@@ -38,6 +38,8 @@
     {"id": "1302", "name": "csipkés"},
     {"id": "1303", "name": "fogas"},
     {"id": "1304", "name": "tövises hullámos"},
+    {"id": "1305", "name": "tövises"},
+    {"id": "1306", "name": "hullámos"},
     {"id": "1400", "name": "nyeles"},
     {"id": "1401", "name": "ülő"},
     {"id": "1402", "name": "tőálló"},
@@ -83,7 +85,7 @@
     {"id": "3103", "name": "barázdált"},
     {"id": "3104", "name": "pikkelyes"},
     {"id": "3105", "name": "barázdás"},
-    {"id": "3106", "name": "papokban leváló"},
+    {"id": "3106", "name": "lapokban leváló"},
     {"id": "3107", "name": "bordás"},
     {"id": "3200", "name": "szürke"},
     {"id": "3201", "name": "barna"},
@@ -93,6 +95,7 @@
     {"id": "3205", "name": "sárga"},
     {"id": "3206", "name": "fehér"},
     {"id": "3207", "name": "sötétvörös"},
+    {"id": "3208", "name": "zöld"},
     {"id": "3300", "name": "toboz"},
     {"id": "3301", "name": "lependék"},
     {"id": "3302", "name": "makk"},
@@ -102,5 +105,6 @@
     {"id": "3306", "name": "almatermés"},
     {"id": "3307", "name": "aszmag"},
     {"id": "3308", "name": "csonthéjas"},
-    {"id": "3309", "name": "bogyó"}
+    {"id": "3309", "name": "bogyó"},
+    {"id": "3310", "name": "hüvely"}
   ]
