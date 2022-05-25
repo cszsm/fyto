@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/services/image_loader.dart';
 import 'package:fyto/widgets/attribute_selector.dart';
@@ -52,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<Plant> foundPlants = [];
-  String text = 'select an attribute';
+  String text = 'Válasszon jellemzőt';
   bool isPlantFound = false;
 
   void _filterPlants(Map<String, String> selection) {
@@ -61,77 +62,67 @@ class _MyHomePageState extends State<MyHomePage> {
     foundPlants = filterPlants(criteria, p);
     setState(() {
       if (foundPlants.length > 1) {
-        text = 'found ${foundPlants.length} plants';
+        text = '${foundPlants.length} talált növény';
         isPlantFound = false;
       } else if (foundPlants.length == 1) {
         text = foundPlants[0].name;
         isPlantFound = true;
       } else {
-        text = 'there\'s no such plant';
+        text = 'Nincs ilyen növény';
         isPlantFound = false;
       }
     });
   }
 
+  Future<void> _downloadImages() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final loader = ImageLoader(directory);
+    final needed = await loader.isDownloadNeeded();
+    if (needed) {
+      print('download needed');
+      loader.download();
+    } else {
+      print('download not needed');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(
-      // Here we take the value from the MyHomePage object that was created by
-      // the App.build method, and use it to set our appbar title.
-      title: Text(widget.title),
-      actions: [
-        OutlinedButton(
-          onPressed: () async {
-            final directory = await getApplicationDocumentsDirectory();
-            final loader = ImageLoader(directory);
-            final needed = await loader.isDownloadNeeded();
-            if (needed) {
-              print('download needed');
-              loader.download();
-            } else {
-              print('download not needed');
-            }
-          },
-          child: Text('download'),
-        )
-      ],
-    );
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarIconBrightness: Brightness.dark));
+    _downloadImages();
 
-    final availableHeigth = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top -
-        appBar.preferredSize.height;
+    final availableHeigth = MediaQuery.of(context).size.height;
 
     return Scaffold(
-        appBar: appBar,
-        body: Column(
-          children: [
-            SizedBox(
-              child: AttributeSelector(_filterPlants),
-              height: availableHeigth * 0.9,
-            ),
-            Container(
-              child: OutlinedButton(
-                onPressed: isPlantFound
-                    ? () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PlantDetails(foundPlants[0])));
-                      }
-                    : () {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return ResultSelectorDialog(foundPlants);
-                            });
-                      },
-                child: Text(text),
-              ),
-              height: availableHeigth * 0.1,
-              padding: const EdgeInsets.all(10),
-            )
-          ],
-        ));
+      body: SizedBox(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: AttributeSelector(_filterPlants),
+        ),
+        height: availableHeigth,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: isPlantFound
+            ? () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PlantDetails(foundPlants[0])));
+              }
+            : () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ResultSelectorDialog(foundPlants);
+                    });
+              },
+        label: Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.w400),
+        ),
+      ),
+    );
   }
 }
