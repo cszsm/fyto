@@ -28,12 +28,12 @@ class _AttributeSelectorState extends State<AttributeSelector> {
         final attribute = attributeTypes.elementAt(index);
         final attributeName = attribute['name']!;
         final attributeId = attribute['id'] as String;
-        final valueId = selection[attributeId];
+        final selectedAttributeValueId = selection[attributeId];
 
         Widget right;
-        if (valueId != null) {
+        if (selectedAttributeValueId != null) {
           final valueName = attributeValues.firstWhere(
-              (e) => (e['id'] as String) == valueId)['name'] as String;
+              (e) => (e['id'] as String) == selectedAttributeValueId)['name'] as String;
           right = Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class _AttributeSelectorState extends State<AttributeSelector> {
               var result = await showDialog(
                 context: context,
                 builder: (context) {
-                  return AttributeValueSelector(attribute['id'] as String);
+                  return AttributeValueSelector(attributeId, selectedAttributeValueId);
                 },
               );
 
@@ -91,7 +91,7 @@ class _AttributeSelectorState extends State<AttributeSelector> {
             child: Container(
               height: 70,
               decoration: BoxDecoration(
-                color: valueId != null ? Colors.white : Colors.grey[200]!,
+                color: selectedAttributeValueId != null ? Colors.white : Colors.grey[200]!,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.3),
@@ -110,7 +110,7 @@ class _AttributeSelectorState extends State<AttributeSelector> {
                       'assets/images/viragzat_kunkor.svg',
                       width: 40,
                       height: 40,
-                      color: valueId != null ? Colors.green[600] : Colors.black,
+                      color: selectedAttributeValueId != null ? Colors.green[600] : Colors.black,
                     ),
                   ),
                   right

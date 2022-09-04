@@ -4,18 +4,19 @@ import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/data/plant_attributes.dart';
 
 class AttributeValueSelector extends StatelessWidget {
-  final String attributeId;
+  final String attributeCategoryId;
+  final String? selectedAttributeValueId;
 
-  const AttributeValueSelector(this.attributeId);
+  const AttributeValueSelector(this.attributeCategoryId, this.selectedAttributeValueId);
 
   List<AttributeTile> createAttributeValueTiles(context) {
     final attributes = plantAttributes.firstWhere(
-            (e) => (e['type'] as String) == attributeId)['attributes']
+            (e) => (e['type'] as String) == attributeCategoryId)['attributes']
         as List<String>;
     return attributes.map((attribute) {
       final attributeName = attributeValues.firstWhere(
           (e) => (e['id'] as String) == attribute)['name'] as String;
-      return AttributeTile(attributeName, false, attribute);
+      return AttributeTile(attributeName, selectedAttributeValueId == attribute, attribute);
     }).toList();
   }
 
