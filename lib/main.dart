@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/services/image_loader.dart';
-import 'package:fyto/widgets/attribute_selector.dart';
+import 'package:fyto/widgets/attribute_category_selector.dart';
 import 'package:fyto/widgets/plant_details.dart';
 import 'package:fyto/widgets/result_selector_dialog.dart';
 import 'package:firebase_core/firebase_core.dart';
