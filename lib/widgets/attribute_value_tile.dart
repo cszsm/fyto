@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class AttributeTile extends StatelessWidget {
+class AttributeValueTile extends StatelessWidget {
   final String attributeId;
   final bool selected;
   final String attributeName;
 
-  const AttributeTile(this.attributeId, this.selected, this.attributeName);
+  const AttributeValueTile(this.attributeId, this.selected, this.attributeName);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,7 @@ class AttributeTile extends StatelessWidget {
             fontSize: 14,
             fontWeight: FontWeight.w300,
           ),
+          textAlign: TextAlign.center,
         ),
       ],
     );
