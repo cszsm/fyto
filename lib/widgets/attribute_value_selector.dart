@@ -27,7 +27,6 @@ class AttributeValueSelector extends StatelessWidget {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           child: Container(
-            width: 100,
             color: Colors.white,
             child: GridView.count(
               controller: scrollController,

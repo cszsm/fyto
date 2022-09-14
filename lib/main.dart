@@ -4,7 +4,7 @@ import 'package:fyto/models/plant.dart';
 import 'package:fyto/services/image_loader.dart';
 import 'package:fyto/widgets/attribute_category_selector.dart';
 import 'package:fyto/widgets/plant_details.dart';
-import 'package:fyto/widgets/result_selector_dialog.dart';
+import 'package:fyto/widgets/result_selector.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return ResultSelectorDialog(foundPlants);
+                      return ResultSelector(foundPlants);
                     });
               },
         label: Text(

@@ -38,6 +38,9 @@ class _AttributeSelectorState extends State<AttributeSelector> {
           child:
               AttributeCategoryTile(attributeId, selectedAttributeValueId, (newSelectedValueId) {
             setState(() {
+              if (newSelectedValueId == null) {
+                return;
+              }
 
               if (selection[attributeId] == newSelectedValueId) {
                 selection.remove(attributeId);
