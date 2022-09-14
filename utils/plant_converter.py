@@ -11,8 +11,7 @@ with open('utils/plant_attribute_values.json') as attribute_values_file, \
 
 
 def to_attribute_id(attribute):
-    print(attribute)
-    return list(filter(lambda x: x['name'] == attribute.decode('utf-8'), attribute_values))[0]['id']
+    return list(filter(lambda x: x['name'] == attribute, attribute_values))[0]['id']
 
 
 def to_attribute_id_object(raw):
