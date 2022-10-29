@@ -57,7 +57,7 @@ class _PlantDetailsState extends State<PlantDetails> {
       final File plantImage = (await plantDirectory.list().first) as File;
       return Image.file(plantImage);
     } catch (e) {
-      return null;
+      return Image.asset('assets/images/missing.png');
     }
   }
 
@@ -163,11 +163,6 @@ class _PlantDetailsState extends State<PlantDetails> {
                 ),
               ],
             ),
-            // Positioned(
-            //   right: 10,
-            //   top: 100,
-            //   child: ImageSelector(selectedImage, _updateImage),
-            // )
           ],
         ),
       ),

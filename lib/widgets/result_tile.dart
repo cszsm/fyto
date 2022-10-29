@@ -23,7 +23,7 @@ class ResultTile extends StatelessWidget {
       final File plantImage = (await plantDirectory.list().first) as File;
       return Image.file(plantImage);
     } catch (e) {
-      return null;
+      return Image.asset('assets/images/missing.png');
     }
   }
 
