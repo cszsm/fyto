@@ -42,6 +42,7 @@ class AttributeValueSelector extends StatelessWidget {
       },
       expand: false,
       maxChildSize: 1,
+      snap: true,
     );
   }
 }

@@ -15,14 +15,14 @@ class ResultSelector extends StatelessWidget {
           borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
           child: Scaffold(
             body: Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.only(top: 20),
               color: Colors.white,
               child: GridView.count(
                 controller: scrollController,
                 crossAxisCount: 3,
                 childAspectRatio: 1,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
+                mainAxisSpacing: 2,
+                crossAxisSpacing: 2,
                 children: results.map((e) => ResultTile(e)).toList(),
               ),
             ),
@@ -31,6 +31,7 @@ class ResultSelector extends StatelessWidget {
       },
       expand: false,
       maxChildSize: 1,
+      snap: true,
     );
   }
 }
