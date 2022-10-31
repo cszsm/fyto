@@ -32,41 +32,38 @@ class ResultTile extends StatelessWidget {
     return FutureBuilder(
       future: _getImage(),
       builder: (context, AsyncSnapshot<Image?> snapshot) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PlantDetails(plant)));
-            },
-            child: Stack(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: FittedBox(
-                    child: snapshot.data,
-                    fit: BoxFit.cover,
-                    clipBehavior: Clip.hardEdge,
-                  ),
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PlantDetails(plant)));
+          },
+          child: Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3,
+                height: MediaQuery.of(context).size.height / 3,
+                child: FittedBox(
+                  child: snapshot.data,
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 5,
-                  child: SizedBox(
-                    child: Text(
-                      plant.name,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 5,
+                child: SizedBox(
+                  child: Text(
+                    plant.name,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
