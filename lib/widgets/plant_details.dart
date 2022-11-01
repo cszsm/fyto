@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/image_grid.dart';
+import 'package:fyto/widgets/plant_details_attributes.dart';
+import 'package:fyto/widgets/plant_details_description.dart';
+import 'package:fyto/widgets/plant_details_header.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum Page {
@@ -39,12 +42,6 @@ class _PlantDetailsState extends State<PlantDetails> {
     }).toList();
   }
 
-  void _updateImage(String selection) {
-    setState(() {
-      selectedImage = selection;
-    });
-  }
-
   Future<Image?> _getImage() async {
     final Directory applicationDirectory =
         await getApplicationDocumentsDirectory();
@@ -66,103 +63,33 @@ class _PlantDetailsState extends State<PlantDetails> {
     return FutureBuilder(
       future: _getImage(),
       builder: (context, AsyncSnapshot<Image?> snapshot) => Scaffold(
-        // TODO: stack's probably not needed
-        body: Stack(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              selectedPage = selectedPage == Page.description
+                  ? Page.attributes
+                  : Page.description;
+            });
+          },
+          label: Text(
+            selectedPage == Page.description ? 'Tulajdonságok' : 'Leírás',
+            style: const TextStyle(fontWeight: FontWeight.w400),
+          ),
+        ),
+        body: Column(
           children: [
-            Column(
-              children: [
-                Stack(
-                  children: [
-                    GestureDetector(
-                      child: SizedBox(
-                        height: 300,
-                        width: double.infinity,
-                        child: FittedBox(
-                          fit: BoxFit.cover,
-                          clipBehavior: Clip.hardEdge,
-                          child: snapshot.data,
-                        ),
-                      ),
-                      onTap: () => {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ImageGrid(widget.plant.latinName),
-                            ))
-                      },
-                    ),
-                    Positioned(
-                        bottom: 8,
-                        left: 24,
-                        child: Column(
-                          children: [
-                            Text(
-                              widget.plant.name,
-                              style: const TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              widget.plant.latinName,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        )),
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: selectedPage == Page.description
-                          ? SingleChildScrollView(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: Text(
-                                  widget.plant.description,
-                                  style: const TextStyle(fontSize: 16),
-                                ),
-                              ),
-                            )
-                          : ListView(
-                              // padding: EdgeInsets.symmetric(vertical: 6),
-                              children: _listAttributes(),
-                            ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 80,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => ToggleButtons(
-                      constraints: BoxConstraints.expand(
-                          width: constraints.maxWidth / 2),
-                      borderWidth: 0,
-                      children: const [
-                        Text('Leírás'),
-                        Text('Tulajdonságok'),
-                      ],
-                      isSelected: isSelected,
-                      onPressed: (int index) {
-                        setState(() {
-                          selectedPage =
-                              index == 0 ? Page.description : Page.attributes;
-                          isSelected[0] = selectedPage == Page.description;
-                          isSelected[1] = selectedPage == Page.attributes;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
+            PlantDetailsHeader(
+              widget.plant.name,
+              widget.plant.latinName,
+              snapshot.data,
             ),
+            Expanded(
+                child: Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: selectedPage == Page.description
+                  ? PlantDetailsDescription(widget.plant.description)
+                  : PlantDetailsAttributes(widget.plant.attributes),
+            )),
           ],
         ),
       ),

@@ -35,22 +35,25 @@ class _AttributeSelectorState extends State<AttributeSelector> {
             top: index == 0 ? 400 : 0,
             bottom: index == attributeTypes.length - 1 ? 80 : 0,
           ),
-          child:
-              AttributeCategoryTile(attributeId, selectedAttributeValueId, (newSelectedValueId) {
-            setState(() {
-              if (newSelectedValueId == null) {
-                return;
-              }
+          child: AttributeCategoryTile(
+            attributeId,
+            selectedAttributeValueId,
+            (newSelectedValueId) {
+              setState(() {
+                if (newSelectedValueId == null) {
+                  return;
+                }
 
-              if (selection[attributeId] == newSelectedValueId) {
-                selection.remove(attributeId);
-              } else {
-                selection[attributeId] = newSelectedValueId!;
-              }
-            });
+                if (selection[attributeId] == newSelectedValueId) {
+                  selection.remove(attributeId);
+                } else {
+                  selection[attributeId] = newSelectedValueId!;
+                }
+              });
 
-            widget.onSelectionChanged(selection);
-          }),
+              widget.onSelectionChanged(selection);
+            },
+          ),
         );
       },
       separatorBuilder: (BuildContext context, int index) {

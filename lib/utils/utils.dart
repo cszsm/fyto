@@ -12,3 +12,5 @@ String resolveAttributeValue(String id) => _resolve(id, attributeValues);
 List<Plant> filterPlants(PlantAttributes criteria, List<Plant> plants) {
   return plants.where((plant) => plant.isFit(criteria)).toList();
 }
+
+String capitalizeFirstLetter(String s) => "${s[0].toUpperCase()}${s.substring(1)}";

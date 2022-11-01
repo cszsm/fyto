@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fyto/data/plant_attribute_types.dart';
 import 'package:fyto/data/plant_attribute_values.dart';
+import 'package:fyto/utils/utils.dart';
 import 'attribute_value_selector.dart';
 
 class AttributeCategoryTile extends StatelessWidget {
@@ -32,14 +33,14 @@ class AttributeCategoryTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "${categoryName[0].toUpperCase()}${categoryName.substring(1)}",
+            capitalizeFirstLetter(categoryName),
             style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w300,
             ),
           ),
           Text(
-            "${selectedValueName![0].toUpperCase()}${selectedValueName!.substring(1)}",
+            capitalizeFirstLetter(selectedValueName!),
             style: TextStyle(
               color: Colors.green[600],
               fontSize: 18,
@@ -50,7 +51,7 @@ class AttributeCategoryTile extends StatelessWidget {
       );
     } else {
       right = Text(
-        "${categoryName[0].toUpperCase()}${categoryName.substring(1)}",
+        capitalizeFirstLetter(categoryName),
         style: const TextStyle(
           fontWeight: FontWeight.w300,
         ),
