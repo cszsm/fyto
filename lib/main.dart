@@ -55,21 +55,29 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Plant> foundPlants = [];
   String text = 'Válasszon jellemzőt';
   bool isPlantFound = false;
+  bool fabEnabled = false;
 
   void _filterPlants(Map<String, String> selection) {
     final criteria = PlantAttributes(selection);
     final p = plants.map((e) => Plant.fromRaw(e)).toList();
     foundPlants = filterPlants(criteria, p);
     setState(() {
-      if (foundPlants.length > 1) {
+      if (selection.isEmpty) {
+        text = 'Válasszon jellemzőt';
+        isPlantFound = false;
+        fabEnabled = false;
+      } else if (foundPlants.length > 1) {
         text = '${foundPlants.length} talált növény';
         isPlantFound = false;
+        fabEnabled = true;
       } else if (foundPlants.length == 1) {
         text = foundPlants[0].name;
         isPlantFound = true;
+        fabEnabled = true;
       } else {
         text = 'Nincs ilyen növény';
         isPlantFound = false;
+        fabEnabled = false;
       }
     });
   }
@@ -104,24 +112,31 @@ class _MyHomePageState extends State<MyHomePage> {
         height: availableHeigth,
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: isPlantFound
-            ? () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PlantDetails(foundPlants[0])));
-              }
-            : () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return ResultSelector(foundPlants);
-                    });
-              },
+        onPressed: fabEnabled
+            ? (isPlantFound
+                ? () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PlantDetails(foundPlants[0])));
+                  }
+                : () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return ResultSelector(foundPlants);
+                        });
+                  })
+            : null,
         label: Text(
           text,
-          style: const TextStyle(fontWeight: FontWeight.w400),
+          style: TextStyle(
+            color: fabEnabled ? Colors.white : Colors.grey,
+            fontWeight: FontWeight.w400,
+          ),
         ),
+        backgroundColor: fabEnabled ? Colors.green : Colors.grey[100],
       ),
     );
   }
