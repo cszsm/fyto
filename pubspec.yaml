@@ -41,6 +41,7 @@ dependencies:
   path_provider: ^2.0.9
   flutter_archive: ^5.0.0
   firebase_core_platform_interface: 4.5.1
+  flutter_launcher_icons: ^0.10.0
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +94,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flutter_icons:
+  image_path: 'assets/logo.png'
+  android: true
