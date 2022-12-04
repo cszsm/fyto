@@ -1,36 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fyto/utils/utils.dart';
 
 class AttributeValueTile extends StatelessWidget {
   final String attributeId;
   final bool selected;
-  final String attributeName;
 
-  const AttributeValueTile(this.attributeId, this.selected, this.attributeName);
+  const AttributeValueTile(this.attributeId, this.selected);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        GestureDetector(
-          onTap: () { Navigator.of(context).pop(attributeName); },
-          child: SvgPicture.asset(
-            'assets/images/viragzat_kunkor.svg',
+    final String attributeName = resolveAttributeValueName(attributeId);
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pop(attributeId);
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SvgPicture.asset(
+            getPictogramPath(attributeId),
             width: 60,
+            height: 60,
             color: selected ? Colors.green[600] : Colors.black,
+            placeholderBuilder: (context) => const SizedBox(
+              height: 60,
+              child: Center(
+                child: Text(
+                  'haló',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ),
           ),
-        ),
-        Text(
-          "${attributeId[0].toUpperCase()}${attributeId.substring(1)}",
-          style: TextStyle(
-            color: selected ? Colors.green[600] : Colors.black,
-            fontSize: 14,
-            fontWeight: FontWeight.w300,
+          Text(
+            "${attributeName[0].toUpperCase()}${attributeName.substring(1)}",
+            style: TextStyle(
+              color: selected ? Colors.green[600] : Colors.black,
+              fontSize: 14,
+              fontWeight: FontWeight.w300,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
