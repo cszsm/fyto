@@ -30,8 +30,8 @@ class _PlantDetailsState extends State<PlantDetails> {
 
   List<Widget> _listAttributes() {
     return widget.plant.attributes.entries.map((e) {
-      String attributeType = resolveAttributeType(e.key);
-      String attributeValue = resolveAttributeValue(e.value);
+      String attributeType = resolveAttributeTypeName(e.key);
+      String attributeValue = resolveAttributeValueName(e.value);
       return Padding(
         padding: const EdgeInsets.only(top: 12),
         child: Text(

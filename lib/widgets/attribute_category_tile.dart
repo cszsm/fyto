@@ -79,11 +79,22 @@ class AttributeCategoryTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: SvgPicture.asset(
-                'assets/images/viragzat_kunkor.svg',
+                selectedValueId != null
+                    ? getPictogramPath(selectedValueId)
+                    : 'assets/images/viragzat_kunkor.svg',
                 width: 40,
                 height: 40,
                 color:
                     selectedValueId != null ? Colors.green[600] : Colors.black,
+                placeholderBuilder: (context) => const SizedBox(
+                  height: 60,
+                  child: Center(
+                    child: Text(
+                      'haló',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ),
               ),
             ),
             right

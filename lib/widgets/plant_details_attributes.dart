@@ -13,8 +13,8 @@ class PlantDetailsAttributes extends StatelessWidget {
       itemCount: attributes.entries.length,
       itemBuilder: (context, index) {
         MapEntry e = attributes.entries.elementAt(index);
-        String attributeType = resolveAttributeType(e.key);
-        String attributeValue = resolveAttributeValue(e.value);
+        String attributeType = resolveAttributeTypeName(e.key);
+        String attributeValue = resolveAttributeValueName(e.value);
 
         return Container(
           height: 50,
