@@ -76,28 +76,50 @@ class AttributeCategoryTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                selectedValueId != null
-                    ? getPictogramPath(selectedValueId)
-                    : 'assets/images/viragzat_kunkor.svg',
-                width: 40,
-                height: 40,
-                color:
-                    selectedValueId != null ? Colors.green[600] : Colors.black,
-                placeholderBuilder: (context) => const SizedBox(
-                  height: 60,
-                  child: Center(
-                    child: Text(
-                      'haló',
-                      style: TextStyle(color: Colors.red),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SvgPicture.asset(
+                    selectedValueId != null
+                        ? getPictogramPath(selectedValueId)
+                        : 'assets/images/viragzat_kunkor.svg',
+                    width: 40,
+                    height: 40,
+                    color: selectedValueId != null
+                        ? Colors.green[600]
+                        : Colors.black,
+                    placeholderBuilder: (context) => const SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: Center(
+                        child: Text(
+                          'haló',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+                right,
+              ],
             ),
-            right
+            selectedValueId != null
+                ? Expanded(
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: IconButton(
+                          onPressed: () => onSelect(selectedValueId),
+                          icon: const Icon(
+                            Icons.clear,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container()
           ],
         ),
       ),

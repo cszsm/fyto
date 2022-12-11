@@ -138,6 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: fabEnabled ? Colors.green : Colors.grey[100],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
