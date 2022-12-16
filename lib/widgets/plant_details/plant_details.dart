@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
-import 'package:fyto/utils/utils.dart';
-import 'package:fyto/widgets/image_grid.dart';
-import 'package:fyto/widgets/plant_details_attributes.dart';
-import 'package:fyto/widgets/plant_details_description.dart';
-import 'package:fyto/widgets/plant_details_header.dart';
+import 'package:fyto/widgets/plant_details/plant_details_attributes.dart';
+import 'package:fyto/widgets/plant_details/plant_details_description.dart';
+import 'package:fyto/widgets/plant_details/plant_details_header.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum Page {
@@ -27,20 +25,6 @@ class _PlantDetailsState extends State<PlantDetails> {
   String selectedImage = 'csorgo-kakascimer';
   Page selectedPage = Page.description;
   List<bool> isSelected = [true, false];
-
-  List<Widget> _listAttributes() {
-    return widget.plant.attributes.entries.map((e) {
-      String attributeType = resolveAttributeTypeName(e.key);
-      String attributeValue = resolveAttributeValueName(e.value);
-      return Padding(
-        padding: const EdgeInsets.only(top: 12),
-        child: Text(
-          '$attributeType: $attributeValue',
-          style: const TextStyle(fontSize: 16),
-        ),
-      );
-    }).toList();
-  }
 
   Future<Image?> _getImage() async {
     final Directory applicationDirectory =
@@ -72,9 +56,8 @@ class _PlantDetailsState extends State<PlantDetails> {
             });
           },
           label: Text(
-            selectedPage == Page.description ? 'Tulajdonságok' : 'Leírás',
-            style: const TextStyle(fontWeight: FontWeight.w400),
-          ),
+              selectedPage == Page.description ? 'Tulajdonságok' : 'Leírás',
+              style: const TextStyle(fontWeight: FontWeight.w400)),
         ),
         body: Column(
           children: [

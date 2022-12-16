@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../utils/utils.dart';
+import 'package:fyto/utils/utils.dart';
 
 class PlantDetailsAttributes extends StatelessWidget {
   final Map<String, String> attributes;
@@ -23,22 +23,18 @@ class PlantDetailsAttributes extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                capitalizeFirstLetter(attributeType),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              Text(
-                capitalizeFirstLetter(attributeValue),
-                style: TextStyle(
-                  color: Colors.green[600],
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
+              Text(capitalizeFirstLetter(attributeType),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  )),
+              Text(capitalizeFirstLetter(attributeValue),
+                  style: TextStyle(
+                    color: Colors.green[600],
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  )),
             ],
           ),
         );
