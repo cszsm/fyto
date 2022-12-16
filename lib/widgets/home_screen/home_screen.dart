@@ -46,25 +46,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final availableHeigth = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      body: SizedBox(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: AttributeSelector(_filterPlants),
-        ),
-        height: availableHeigth,
+      backgroundColor: colorScheme.background,
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/images/background.png',
+            height: availableHeigth,
+            fit: BoxFit.cover,
+            color: colorScheme.tertiary.withOpacity(0.1),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: AttributeCategorySelector(_filterPlants),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: fabEnabled
             ? (isPlantFound
                 ? () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                PlantDetails(foundPlants[0])));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlantDetails(foundPlants[0]),
+                      ),
+                    );
                   }
                 : () {
                     showDialog(
@@ -74,14 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         });
                   })
             : null,
-        label: Text(
-          text,
-          style: TextStyle(
-            color: fabEnabled ? Colors.white : Colors.grey,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        backgroundColor: fabEnabled ? Colors.green : Colors.grey[100],
+        label: Text(text),
+        backgroundColor: fabEnabled
+            ? colorScheme.primaryContainer
+            : colorScheme.secondaryContainer,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

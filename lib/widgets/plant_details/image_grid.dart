@@ -11,38 +11,47 @@ Future<List<Image>> _getImages(latinName) async {
   final String plantDirectoryPath =
       '${applicationDirectory.path}/images/plants/$plantDirectoryName';
   final Directory plantDirectory = Directory(plantDirectoryPath);
-  final List<Image> images = await plantDirectory.list().map((filePath) {
-    return Image.file(filePath as File);
-  }).toList();
-  return images;
+  try {
+    final List<Image> images = await plantDirectory.list().map((filePath) {
+      return Image.file(filePath as File);
+    }).toList();
+    return images;
+  } catch (e) {
+    return [Image.asset('assets/images/missing.png')];
+  }
 }
 
 class ImageGrid extends StatelessWidget {
   final String latinName;
 
-  const ImageGrid(this.latinName);
+  const ImageGrid(this.latinName, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: _getImages(latinName),
-      builder: (context, AsyncSnapshot<List<Image>> snapshot) => Scaffold(
-        body: GridView.count(
-          crossAxisCount: 2,
-          mainAxisSpacing: 2,
-          crossAxisSpacing: 2,
-          children: snapshot.data != null
-              ? snapshot.data!
-                  .map(
-                    (image) => FittedBox(
+      builder: (context, AsyncSnapshot<List<Image>> snapshot) => GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
+        crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 1,
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        children: snapshot.data != null
+            ? snapshot.data!
+                .map(
+                  (image) => ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: FittedBox(
                       fit: BoxFit.cover,
                       clipBehavior: Clip.hardEdge,
                       child: image,
                     ),
-                  )
-                  .toList()
-              : [],
-        ),
+                  ),
+                )
+                .toList()
+            : [],
       ),
     );
   }
