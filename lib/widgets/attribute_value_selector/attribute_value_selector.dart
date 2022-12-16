@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/utils/utils.dart';
-import 'package:fyto/widgets/attribute_value_tile.dart';
-import 'package:fyto/data/plant_attribute_values.dart';
-import 'package:fyto/data/plant_attributes.dart';
+import 'package:fyto/widgets/attribute_value_selector/attribute_value_tile.dart';
 
 class AttributeValueSelector extends StatelessWidget {
   final String attributeCategoryId;
   final String? selectedAttributeValueId;
 
-  const AttributeValueSelector(this.attributeCategoryId, this.selectedAttributeValueId);
+  const AttributeValueSelector(
+      this.attributeCategoryId, this.selectedAttributeValueId);
 
   List<AttributeValueTile> createAttributeValueTiles(context) {
     final attributes = resolveAttributeValues(attributeCategoryId);
     return attributes.map((attribute) {
-      return AttributeValueTile(attribute, selectedAttributeValueId == attribute);
+      return AttributeValueTile(
+          attribute, selectedAttributeValueId == attribute);
     }).toList();
   }
 
