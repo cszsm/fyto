@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 class ResultTile extends StatelessWidget {
   final Plant plant;
 
-  const ResultTile(this.plant);
+  const ResultTile(this.plant, {super.key});
 
   Future<Image?> _getImage() async {
     final Directory applicationDirectory =
@@ -36,33 +36,33 @@ class ResultTile extends StatelessWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PlantDetails(plant)));
           },
-          child: Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-                height: MediaQuery.of(context).size.height / 3,
-                child: FittedBox(
-                  child: snapshot.data,
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 5,
-                child: SizedBox(
-                  child: Text(
-                    plant.name,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3,
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: FittedBox(
+                    child: snapshot.data,
+                    fit: BoxFit.cover,
+                    clipBehavior: Clip.hardEdge,
                   ),
                 ),
-              ),
-            ],
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 4,
+                  child: SizedBox(
+                    child: Text(
+                      plant.name,
+                      style: const TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

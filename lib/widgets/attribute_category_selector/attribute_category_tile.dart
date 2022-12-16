@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fyto/data/plant_attribute_types.dart';
-import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/attribute_value_selector/attribute_value_selector.dart';
 
 class AttributeCategoryTile extends StatelessWidget {
-  String categoryId;
-  String? selectedValueId;
-  Function onSelect;
+  final String categoryId;
+  final String? selectedValueId;
+  final Function onSelect;
 
-  String categoryName;
-  String? selectedValueName;
+  final String categoryName;
+  final String? selectedValueName;
 
-  AttributeCategoryTile(
-    this.categoryId,
-    this.selectedValueId,
-    this.onSelect,
-  )   : categoryName = attributeTypes.firstWhere(
-            (e) => (e['id'] as String) == categoryId)['name'] as String,
+  AttributeCategoryTile(this.categoryId, this.selectedValueId, this.onSelect,
+      {super.key})
+      : categoryName = resolveAttributeTypeName(categoryId),
         selectedValueName = selectedValueId != null
-            ? attributeValues.firstWhere(
-                (e) => (e['id'] as String) == selectedValueId)['name'] as String
+            ? resolveAttributeValueName(selectedValueId)
             : null;
 
   void openValueSelector(BuildContext context) async {
@@ -34,78 +28,105 @@ class AttributeCategoryTile extends StatelessWidget {
     onSelect(categoryId, result);
   }
 
-  Widget selectedCategory() {
+  Widget selectedCategory(ColorScheme colorScheme) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(capitalizeFirstLetter(categoryName),
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w300,
-            )),
-        Text(capitalizeFirstLetter(selectedValueName!),
-            style: TextStyle(
-              color: Colors.green[600],
-              fontSize: 18,
-              fontWeight: FontWeight.w300,
-            ))
+        Text(
+          capitalizeFirstLetter(categoryName),
+          style: TextStyle(
+            color: colorScheme.onSecondaryContainer,
+            fontSize: 14,
+          ),
+        ),
+        Text(
+          capitalizeFirstLetter(selectedValueName!),
+          style: TextStyle(
+            color: colorScheme.secondary,
+            fontSize: 20,
+          ),
+        )
       ],
     );
   }
 
-  Widget unselectedCategory() {
-    return Text(capitalizeFirstLetter(categoryName),
-        style: const TextStyle(
-          fontWeight: FontWeight.w300,
-        ));
+  Widget unselectedCategory(ColorScheme colorScheme) {
+    return Text(
+      capitalizeFirstLetter(categoryName),
+      style: TextStyle(
+        color: colorScheme.onSurface,
+        fontSize: 14,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => openValueSelector(context),
-      child: Container(
-        height: 70,
-        decoration: BoxDecoration(
-          color: selectedValueId != null ? Colors.white : Colors.grey[200]!,
-        ),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SvgPicture.asset(
-                  selectedValueId != null
-                      ? getPictogramPath(selectedValueId)
-                      : '',
-                  width: 40,
-                  height: 40,
-                  color: selectedValueId != null
-                      ? Colors.green[600]
-                      : Colors.black,
-                  placeholderBuilder: (context) => const SizedBox(
-                      width: 40,
-                      height: 40,
-                      child: Center(
-                          child: Text(
-                        'haló',
-                        style: TextStyle(color: Colors.red),
-                      )))),
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: GestureDetector(
+        onTap: () => openValueSelector(context),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          child: Container(
+            height: 70,
+            decoration: BoxDecoration(
+              color: selectedValueId != null
+                  ? colorScheme.secondaryContainer
+                  : colorScheme.surfaceVariant.withOpacity(0.7),
             ),
-            Expanded(
-                child: selectedValueId != null
-                    ? selectedCategory()
-                    : unselectedCategory()),
-            selectedValueId != null
-                ? Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: IconButton(
-                      onPressed: () => onSelect(categoryId, selectedValueId),
-                      icon: const Icon(Icons.clear),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SvgPicture.asset(
+                      selectedValueId != null
+                          ? getPictogramPath(selectedValueId)
+                          : '',
+                      width: 32,
+                      height: 32,
+                      color: selectedValueId != null
+                          ? colorScheme.primary
+                          : colorScheme.onSurfaceVariant,
+                      placeholderBuilder: (context) => SizedBox(
+                        width: 32,
+                        height: 32,
+                        child: Center(
+                          child: Text(
+                            'haló',
+                            style: TextStyle(color: colorScheme.error),
+                          ),
+                        ),
+                      ),
                     ),
-                  )
-                : Container()
-          ],
+                  ),
+                  Expanded(
+                    child: selectedValueId != null
+                        ? selectedCategory(colorScheme)
+                        : unselectedCategory(colorScheme),
+                  ),
+                  selectedValueId != null
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: IconButton(
+                            onPressed: () =>
+                                onSelect(categoryId, selectedValueId),
+                            icon: const Icon(
+                              Icons.clear,
+                              size: 28,
+                            ),
+                          ),
+                        )
+                      : Container()
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

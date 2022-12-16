@@ -7,7 +7,8 @@ class AttributeValueSelector extends StatelessWidget {
   final String? selectedAttributeValueId;
 
   const AttributeValueSelector(
-      this.attributeCategoryId, this.selectedAttributeValueId);
+      this.attributeCategoryId, this.selectedAttributeValueId,
+      {super.key});
 
   List<AttributeValueTile> createAttributeValueTiles(context) {
     final attributes = resolveAttributeValues(attributeCategoryId);
@@ -19,17 +20,19 @@ class AttributeValueSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return DraggableScrollableSheet(
       builder: (context, scrollController) {
         return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           child: Container(
-            color: Colors.white,
+            color: colorScheme.surface,
             child: GridView.count(
               controller: scrollController,
               crossAxisCount: 3,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
+              mainAxisSpacing: 4,
+              crossAxisSpacing: 4,
               childAspectRatio: 1,
               padding: const EdgeInsets.all(20),
               children: createAttributeValueTiles(context),
