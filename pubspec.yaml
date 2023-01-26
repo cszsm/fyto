@@ -69,6 +69,15 @@ flutter:
   assets:
     - assets/images/
     - assets/images/pictograms/viragzat/
+    - assets/images/pictograms/level_alak/
+    - assets/images/pictograms/level_szel/
+    - assets/images/pictograms/levelkapocs/
+    - assets/images/pictograms/virag_alak/
+    - assets/images/pictograms/virag_szin/
+    - assets/images/pictograms/szar_alak/
+    - assets/images/pictograms/kereg_minta/
+    - assets/images/pictograms/kereg_szin/
+    - assets/images/pictograms/termes/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

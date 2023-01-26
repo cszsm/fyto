@@ -36,7 +36,9 @@ String deaccentize(String s) {
 String getPictogramPath(valueId) {
   final String typeName =
       resolveAttributeTypeName(valueId.substring(0, 2)).replaceAll(' ', '_');
-  final String attributeName = resolveAttributeValueName(valueId);
+  final String attributeName = resolveAttributeValueName(valueId)
+      .replaceAll(' ', '_')
+      .replaceAll('*', '');
   return deaccentize(
       'assets/images/pictograms/$typeName/${typeName}_$attributeName.svg');
 }
