@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/data/plant_attribute_types.dart';
-import 'package:fyto/widgets/attribute_category_selector/attribute_category_tile.dart';
+import 'package:fyto/widgets/identifier/attribute_category_selector/attribute_category_tile.dart';
 
 // TODO: check if this should really be stateful
 class AttributeCategorySelector extends StatefulWidget {

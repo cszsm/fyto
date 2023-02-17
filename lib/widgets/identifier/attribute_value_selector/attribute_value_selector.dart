@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/utils/utils.dart';
-import 'package:fyto/widgets/attribute_value_selector/attribute_value_tile.dart';
+import 'package:fyto/widgets/identifier/attribute_value_selector/attribute_value_tile.dart';
 
 class AttributeValueSelector extends StatelessWidget {
   final String attributeCategoryId;

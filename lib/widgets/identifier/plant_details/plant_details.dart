@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
-import 'package:fyto/widgets/plant_details/image_grid.dart';
-import 'package:fyto/widgets/plant_details/plant_details_attribute.dart';
-import 'package:fyto/widgets/plant_details/plant_details_description.dart';
-import 'package:fyto/widgets/plant_details/plant_details_header.dart';
+import 'package:fyto/widgets/identifier/plant_details/image_grid.dart';
+import 'package:fyto/widgets/identifier/plant_details/plant_details_attribute.dart';
+import 'package:fyto/widgets/identifier/plant_details/plant_details_description.dart';
+import 'package:fyto/widgets/identifier/plant_details/plant_details_header.dart';
 import 'package:path_provider/path_provider.dart';
 
 enum Page {
