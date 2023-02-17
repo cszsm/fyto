@@ -28,6 +28,10 @@ class ImageLoader {
       switch (event.state) {
         case TaskState.running:
         case TaskState.paused:
+          print('totalBytes');
+          print(event.totalBytes);
+          print('bytesTransferred');
+          print(event.bytesTransferred);
           break;
         case TaskState.success:
         case TaskState.canceled:

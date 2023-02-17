@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyto/color_schemes.dart';
 import 'package:fyto/services/image_loader.dart';
+import 'package:fyto/widgets/download_dialog.dart';
 import 'package:fyto/widgets/home_screen/home_screen.dart';
+import 'package:fyto/widgets/identifier/identifier_screen.dart';
+import 'package:fyto/widgets/loader_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> main() async {
@@ -52,9 +55,20 @@ class _MyHomePageState extends State<MyHomePage> {
     final needed = await loader.isDownloadNeeded();
     if (needed) {
       print('download needed');
-      loader.download();
+
+      showDialog(
+        context: context,
+        builder: (context) => const DownloadDialog(),
+      );
     } else {
       print('download not needed');
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const IdentifierScreen(),
+        ),
+      );
     }
   }
 

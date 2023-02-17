@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/models/plant.dart';
-import 'package:fyto/widgets/result_selector/result_tile.dart';
+import 'package:fyto/widgets/identifier/result_selector/result_tile.dart';
 
 class ResultSelector extends StatelessWidget {
   final List<Plant> results;
