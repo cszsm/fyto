@@ -28,6 +28,8 @@ class ResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return FutureBuilder(
       future: _getImage(),
       builder: (context, AsyncSnapshot<Image?> snapshot) {
@@ -37,7 +39,7 @@ class ResultTile extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => PlantDetails(plant)));
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(36),
             child: Stack(
               children: [
                 SizedBox(
@@ -49,14 +51,13 @@ class ResultTile extends StatelessWidget {
                     clipBehavior: Clip.hardEdge,
                   ),
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 4,
-                  child: SizedBox(
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
                       plant.name,
-                      style: const TextStyle(color: Colors.white),
+                      style:
+                          TextStyle(color: colorScheme.onPrimary, fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
                   ),

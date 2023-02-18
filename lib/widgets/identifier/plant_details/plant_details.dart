@@ -25,58 +25,72 @@ class PlantDetails extends StatefulWidget {
 class _PlantDetailsState extends State<PlantDetails> {
   Page selectedPage = Page.description;
 
-  Future<Image?> _getImage() async {
+  Future<List<Image>> _getImages(latinName) async {
     final Directory applicationDirectory =
         await getApplicationDocumentsDirectory();
     final String plantDirectoryName =
-        widget.plant.latinName.toLowerCase().replaceAll(' ', '_');
+        latinName.toLowerCase().replaceAll(' ', '_');
     final String plantDirectoryPath =
         '${applicationDirectory.path}/images/plants/$plantDirectoryName';
     final Directory plantDirectory = Directory(plantDirectoryPath);
     try {
-      final File plantImage = (await plantDirectory.list().first) as File;
-      return Image.file(plantImage);
+      final List<Image> images = await plantDirectory.list().map((filePath) {
+        return Image.file(filePath as File);
+      }).toList();
+      return images;
     } catch (e) {
-      return Image.asset('assets/images/missing.png');
+      return [];
     }
+  }
+
+  List<Widget> _getElements(List<Image> images) {
+    final Map<String, String> attributes = widget.plant.attributes;
+
+    List<Widget> elements = [
+      Padding(
+        padding: const EdgeInsets.only(top: 16, bottom: 12),
+        child: PlantDetailsHeader(widget.plant.name, widget.plant.latinName),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: PlantDetailsDescription(widget.plant.description),
+      ),
+      ...List.generate(attributes.entries.length, (index) {
+        MapEntry attribute = attributes.entries.elementAt(index);
+
+        return Padding(
+          padding: EdgeInsets.only(
+              bottom: index != attributes.entries.length ? 12 : 0),
+          child: PlantDetailsAttribute(attribute.key, attribute.value),
+        );
+      })
+    ];
+
+    if (images.isNotEmpty) {
+      elements.insert(
+        1,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: ImageGrid(images),
+        ),
+      );
+    }
+
+    return elements;
   }
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Map<String, String> attributes = widget.plant.attributes;
 
     return FutureBuilder(
-      future: _getImage(),
-      builder: (context, AsyncSnapshot<Image?> snapshot) => Scaffold(
+      future: _getImages(widget.plant.latinName),
+      builder: (context, AsyncSnapshot<List<Image>> snapshot) => Scaffold(
         backgroundColor: colorScheme.background,
         body: ListView(
           shrinkWrap: true,
           padding: const EdgeInsets.all(16),
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 16, bottom: 12),
-              child:
-                  PlantDetailsHeader(widget.plant.name, widget.plant.latinName),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: ImageGrid(widget.plant.latinName),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: PlantDetailsDescription(widget.plant.description),
-            ),
-            ...List.generate(attributes.entries.length, (index) {
-              MapEntry attribute = attributes.entries.elementAt(index);
-
-              return Padding(
-                padding: EdgeInsets.only(
-                    bottom: index != attributes.entries.length ? 12 : 0),
-                child: PlantDetailsAttribute(attribute.key, attribute.value),
-              );
-            })
-          ],
+          children: snapshot.data != null ? _getElements(snapshot.data!) : [],
         ),
       ),
     );
