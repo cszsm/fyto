@@ -77,11 +77,13 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
                     );
                   }
                 : () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return ResultSelector(foundPlants);
-                        });
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ResultSelector(foundPlants);
+                      },
+                      isScrollControlled: true,
+                    );
                   })
             : null,
         label: Text(text),

@@ -39,7 +39,7 @@ class ResultTile extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => PlantDetails(plant)));
           },
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(36),
+            borderRadius: BorderRadius.circular(12),
             child: Stack(
               children: [
                 SizedBox(
@@ -53,7 +53,7 @@ class ResultTile extends StatelessWidget {
                 ),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8),
                     child: Text(
                       plant.name,
                       style:
