@@ -8,7 +8,7 @@ class PlantDetailsAttribute extends StatelessWidget {
   final String valueName;
 
   PlantDetailsAttribute(categoryId, this.valueId, {super.key})
-      : categoryName = resolveAttributeTypeName(categoryId),
+      : categoryName = resolveAttributeCategoryName(categoryId),
         valueName = resolveAttributeValueName(valueId);
 
   @override

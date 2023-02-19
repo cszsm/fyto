@@ -1,4 +1,4 @@
-import 'package:fyto/data/plant_attribute_types.dart';
+import 'package:fyto/data/plant_attribute_categories.dart';
 import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/data/plant_attributes.dart';
 import 'package:fyto/models/plant.dart';
@@ -7,14 +7,14 @@ String _resolve(String id, List<Map<String, Object>> values) {
   return values.firstWhere((element) => element['id'] == id)['name'] as String;
 }
 
-String resolveAttributeTypeName(String typeId) =>
-    _resolve(typeId, attributeTypes);
+String resolveAttributeCategoryName(String categoryId) =>
+    _resolve(categoryId, attributeCategories);
 String resolveAttributeValueName(String valueId) =>
     _resolve(valueId, attributeValues);
 
-List<String> resolveAttributeValues(String typeId) {
+List<String> resolveAttributeValues(String categoryId) {
   return plantAttributes.firstWhere(
-      (element) => (element['type']) == typeId)['attributes'] as List<String>;
+      (element) => (element['type']) == categoryId)['attributes'] as List<String>;
 }
 
 List<Plant> filterPlants(PlantAttributes criteria, List<Plant> plants) {
@@ -33,12 +33,20 @@ String deaccentize(String s) {
       .replaceAll(RegExp('[úüű]'), 'u');
 }
 
+String getAttributeCategoryPictogramPath(categoryId) {
+  final String categoryName = resolveAttributeCategoryName(categoryId)
+      .replaceAll(' ', '_')
+      .replaceAll('*', '');
+  return deaccentize('assets/images/pictograms/kategoria/$categoryName.svg');
+}
+
 String getPictogramPath(valueId) {
-  final String typeName =
-      resolveAttributeTypeName(valueId.substring(0, 2)).replaceAll(' ', '_');
+  final String categoryName =
+      resolveAttributeCategoryName(valueId.substring(0, 2))
+      .replaceAll(' ', '_');
   final String attributeName = resolveAttributeValueName(valueId)
       .replaceAll(' ', '_')
       .replaceAll('*', '');
   return deaccentize(
-      'assets/images/pictograms/$typeName/${typeName}_$attributeName.svg');
+      'assets/images/pictograms/$categoryName/${categoryName}_$attributeName.svg');
 }

@@ -1,4 +1,4 @@
-const attributeTypes = [
+const attributeCategories = [
   {'id': '11', 'name': 'virágzat'},
   {'id': '12', 'name': 'levél alak'},
   {'id': '13', 'name': 'levél szél'},

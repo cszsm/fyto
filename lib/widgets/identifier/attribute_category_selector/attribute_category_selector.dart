@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fyto/data/plant_attribute_types.dart';
+import 'package:fyto/data/plant_attribute_categories.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/attribute_category_tile.dart';
 
 // TODO: check if this should really be stateful
@@ -17,10 +17,10 @@ class AttributeCategorySelector extends StatefulWidget {
 class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
   final Map<String, String> selection = {};
   final List<String> defaultCategoryIds =
-      attributeTypes.map((category) => category['id'] as String).toList();
+      attributeCategories.map((category) => category['id'] as String).toList();
   // TODO: resolve this duplication
   List<String> unselectedCategoryIds =
-      attributeTypes.map((category) => category['id'] as String).toList();
+      attributeCategories.map((category) => category['id'] as String).toList();
 
   void select(categoryId, newSelectedValueId) {
     setState(() {
