@@ -19,11 +19,12 @@ class AttributeCategoryTile extends StatelessWidget {
             : null;
 
   void openValueSelector(BuildContext context) async {
-    var result = await showDialog(
+    var result = await showModalBottomSheet(
       context: context,
       builder: (context) {
         return AttributeValueSelector(categoryId, selectedValueId);
       },
+      isScrollControlled: true,
     );
     onSelect(categoryId, result);
   }

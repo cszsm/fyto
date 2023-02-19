@@ -20,29 +20,30 @@ class AttributeValueSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return DraggableScrollableSheet(
       builder: (context, scrollController) {
-        return ClipRRect(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          child: Container(
-            color: colorScheme.surface,
-            child: GridView.count(
-              controller: scrollController,
-              crossAxisCount: 3,
-              mainAxisSpacing: 4,
-              crossAxisSpacing: 4,
-              childAspectRatio: 1,
-              padding: const EdgeInsets.all(20),
-              children: createAttributeValueTiles(context),
+        return Column(
+          children: [
+            const SizedBox(
+              height: 48,
+              child: Icon(Icons.horizontal_rule),
             ),
-          ),
+            Expanded(
+              child: GridView.count(
+                controller: scrollController,
+                crossAxisCount: 3,
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                childAspectRatio: 1,
+                padding: const EdgeInsets.all(4),
+                children: createAttributeValueTiles(context),
+              ),
+            ),
+          ],
         );
       },
       expand: false,
-      maxChildSize: 1,
-      snap: true,
+      maxChildSize: 0.8,
     );
   }
 }
