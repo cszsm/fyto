@@ -13,7 +13,7 @@ class AttributeCategoryTile extends StatelessWidget {
 
   AttributeCategoryTile(this.categoryId, this.selectedValueId, this.onSelect,
       {super.key})
-      : categoryName = resolveAttributeTypeName(categoryId),
+      : categoryName = resolveAttributeCategoryName(categoryId),
         selectedValueName = selectedValueId != null
             ? resolveAttributeValueName(selectedValueId)
             : null;
@@ -88,7 +88,7 @@ class AttributeCategoryTile extends StatelessWidget {
                     child: SvgPicture.asset(
                       selectedValueId != null
                           ? getPictogramPath(selectedValueId)
-                          : '',
+                          : getAttributeCategoryPictogramPath(categoryId),
                       width: 32,
                       height: 32,
                       color: selectedValueId != null
