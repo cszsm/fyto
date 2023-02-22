@@ -38,32 +38,29 @@ class ResultTile extends StatelessWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PlantDetails(plant)));
           },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Stack(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 3,
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: FittedBox(
-                    child: snapshot.data,
-                    fit: BoxFit.cover,
-                    clipBehavior: Clip.hardEdge,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 3,
+                height: MediaQuery.of(context).size.height / 3,
+                child: FittedBox(
+                  child: snapshot.data,
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    plant.name,
+                    style:
+                        TextStyle(color: colorScheme.onPrimary, fontSize: 16),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      plant.name,
-                      style:
-                          TextStyle(color: colorScheme.onPrimary, fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
