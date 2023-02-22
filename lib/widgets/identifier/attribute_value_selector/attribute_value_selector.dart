@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/utils/utils.dart';
+import 'package:fyto/widgets/bottom_sheet_title.dart';
+import 'package:fyto/widgets/drag_handle.dart';
 import 'package:fyto/widgets/identifier/attribute_value_selector/attribute_value_tile.dart';
 
 class AttributeValueSelector extends StatelessWidget {
@@ -20,14 +22,16 @@ class AttributeValueSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryName = capitalizeFirstLetter(
+        resolveAttributeCategoryName(attributeCategoryId));
+
     return DraggableScrollableSheet(
       builder: (context, scrollController) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 48,
-              child: Icon(Icons.horizontal_rule),
-            ),
+            const DragHandle(),
+            BottomSheetTitle(categoryName),
             Expanded(
               child: GridView.count(
                 controller: scrollController,
@@ -43,7 +47,7 @@ class AttributeValueSelector extends StatelessWidget {
         );
       },
       expand: false,
-      maxChildSize: 0.8,
+      maxChildSize: 0.9,
     );
   }
 }
