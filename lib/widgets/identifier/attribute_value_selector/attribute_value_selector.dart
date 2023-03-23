@@ -13,10 +13,10 @@ class AttributeValueSelector extends StatelessWidget {
       {super.key});
 
   List<AttributeValueTile> createAttributeValueTiles(context) {
-    final attributes = resolveAttributeValues(attributeCategoryId);
-    return attributes.map((attribute) {
+    final attributeIds = resolveAttributeValues(attributeCategoryId);
+    return attributeIds.map((attributeId) {
       return AttributeValueTile(
-          attribute, selectedAttributeValueId == attribute);
+          attributeId, selectedAttributeValueId == attributeId, ['22', '32'].contains(attributeCategoryId));
     }).toList();
   }
 

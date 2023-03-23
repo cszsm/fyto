@@ -5,8 +5,9 @@ import 'package:fyto/utils/utils.dart';
 class AttributeValueTile extends StatelessWidget {
   final String valueId;
   final bool selected;
+  final bool colored;
 
-  const AttributeValueTile(this.valueId, this.selected, {super.key});
+  AttributeValueTile(this.valueId, this.selected, this.colored, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,11 @@ class AttributeValueTile extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
                     getPictogramPath(valueId),
-                    color: selected
-                        ? colorScheme.onSecondaryContainer
-                        : colorScheme.onSurface,
+                    color: colored
+                        ? null
+                        : selected
+                            ? colorScheme.onSecondaryContainer
+                            : colorScheme.onSurface,
                     placeholderBuilder: (context) => SizedBox(
                       height: 60,
                       child: Center(
