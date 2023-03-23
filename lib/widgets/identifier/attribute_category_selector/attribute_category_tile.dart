@@ -65,6 +65,7 @@ class AttributeCategoryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final bool colored = ['22', '32'].contains(categoryId);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -92,7 +93,9 @@ class AttributeCategoryTile extends StatelessWidget {
                       width: 32,
                       height: 32,
                       color: selectedValueId != null
-                          ? colorScheme.primary
+                          ? colored
+                              ? null
+                              : colorScheme.primary
                           : colorScheme.onSurfaceVariant,
                       placeholderBuilder: (context) => SizedBox(
                         width: 32,
