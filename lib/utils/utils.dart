@@ -3,6 +3,10 @@ import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/data/plant_attributes.dart';
 import 'package:fyto/models/plant.dart';
 
+List<String> getAttributeCategoryIds() {
+  return attributeCategories.map((category) => category['id'] as String).toList();
+}
+
 String _resolve(String id, List<Map<String, Object>> values) {
   return values.firstWhere((element) => element['id'] == id)['name'] as String;
 }
