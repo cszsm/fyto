@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/data/plant_attribute_categories.dart';
-import 'package:fyto/widgets/identifier/attribute_category_selector/attribute_category_tile.dart';
+import 'package:fyto/widgets/identifier/attribute_category_selector/selected_category_tile.dart';
+import 'package:fyto/widgets/identifier/attribute_category_selector/unselected_category_tile.dart';
 
-// TODO: check if this should really be stateful
 class AttributeCategorySelector extends StatefulWidget {
   final Function onSelectionChanged;
 
@@ -69,10 +69,10 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
             padding: EdgeInsets.only(
               top: index == 0 ? 400 : 0,
             ),
-            child: AttributeCategoryTile(
-              categoryId,
-              selectedValueId,
-              select,
+            child: SelectedCategoryTile(
+              categoryId: categoryId,
+              selectedValueId: selectedValueId ?? "",
+              onSelect: select,
             ),
           );
         } else if (selection.isNotEmpty && index == selection.length) {
@@ -107,10 +107,9 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
               top: index == 0 ? 400 : 0,
               bottom: index == itemCount - 1 ? 90 : 0,
             ),
-            child: AttributeCategoryTile(
-              categoryId,
-              null,
-              select,
+            child: UnselectedCategoryTile(
+              categoryId: categoryId,
+              onSelect: select,
             ),
           );
         }
