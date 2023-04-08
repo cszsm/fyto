@@ -37,10 +37,9 @@ class SelectedCategoryTile extends StatelessWidget {
     final bool colored = ['22', '32'].contains(categoryId);
 
     return CategoryTile(
-      backgroundColor: colorScheme.secondaryContainer,
       icon: categoryTileIcon(
         path: getPictogramPath(selectedValueId),
-        color: colored ? null : colorScheme.primary,
+        color: colored ? null : colorScheme.onSurface,
         errorColor: colorScheme.error,
       ),
       onSelect: openValueSelector,
@@ -52,15 +51,14 @@ class SelectedCategoryTile extends StatelessWidget {
           Text(
             capitalizeFirstLetter(categoryName),
             style: TextStyle(
-              color: colorScheme.onSecondaryContainer,
+              color: colorScheme.secondary,
               fontSize: 14,
             ),
           ),
           Text(
             capitalizeFirstLetter(selectedValueName),
-            style: TextStyle(
-              color: colorScheme.secondary,
-              fontSize: 20,
+            style: const TextStyle(
+              fontSize: 18,
             ),
           )
         ],
