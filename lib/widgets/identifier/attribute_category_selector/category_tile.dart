@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CategoryTile extends StatelessWidget {
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final SvgPicture icon;
   final Function onSelect;
   final Function? onClose;
@@ -10,7 +10,7 @@ class CategoryTile extends StatelessWidget {
 
   const CategoryTile({
     super.key,
-    required this.backgroundColor,
+    this.backgroundColor,
     required this.icon,
     required this.onSelect,
     this.onClose,
@@ -19,17 +19,18 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
         onTap: () => onSelect(context),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          child: Container(
+        child: Card(
+          color: backgroundColor,
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          child: SizedBox(
             height: 70,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
@@ -44,11 +45,21 @@ class CategoryTile extends StatelessWidget {
                   onClose != null
                       ? Padding(
                           padding: const EdgeInsets.only(right: 12),
-                          child: IconButton(
-                            onPressed: () => onClose!(),
-                            icon: const Icon(
-                              Icons.clear,
-                              size: 28,
+                          child: Ink(
+                            padding: EdgeInsets.zero,
+                            width: 38,
+                            height: 38,
+                            decoration: ShapeDecoration(
+                              color: colorScheme.secondaryContainer,
+                              shape: const CircleBorder(),
+                            ),
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () => onClose!(),
+                              icon: const Icon(
+                                Icons.remove,
+                                size: 28,
+                              ),
                             ),
                           ),
                         )

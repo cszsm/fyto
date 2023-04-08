@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fyto/data/plant_attribute_categories.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/selected_category_tile.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/unselected_category_tile.dart';
+import 'package:fyto/widgets/identifier/clear_filter_button.dart';
 
 class AttributeCategorySelector extends StatefulWidget {
   final Function onSelectionChanged;
@@ -55,7 +55,7 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
 
     return ListView.separated(
       separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 4);
+        return const SizedBox(height: 8);
       },
       itemCount: itemCount,
       itemBuilder: (BuildContext context, int index) {
@@ -83,12 +83,9 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 22),
                   child: selection.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(
-                            Icons.playlist_remove,
-                            size: 28,
-                          ),
-                          onPressed: resetSelection)
+                      ? ClearFilterButton(
+                          onTap: resetSelection,
+                        )
                       : Container(),
                 ),
               ),
