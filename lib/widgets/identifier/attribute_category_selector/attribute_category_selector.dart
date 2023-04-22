@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/selected_category_tile.dart';
+import 'package:fyto/widgets/identifier/attribute_category_selector/tile_transition.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/unselected_category_tile.dart';
 import 'package:fyto/widgets/identifier/clear_filter_button.dart';
+
+const duration = Duration(milliseconds: 500);
 
 class AttributeCategorySelector extends StatefulWidget {
   final Function onSelectionChanged;
@@ -16,6 +19,7 @@ class AttributeCategorySelector extends StatefulWidget {
 }
 
 class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey();
   final Map<String, String> selection = {};
   final List<String> defaultCategoryIds = getAttributeCategoryIds();
   List<String> unselectedCategoryIds = getAttributeCategoryIds();
@@ -26,36 +30,162 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
         return;
       }
 
-      if (selection[categoryId] == newSelectedValueId) {
-        selection.remove(categoryId);
-        unselectedCategoryIds = List.from(defaultCategoryIds);
-        unselectedCategoryIds
-            .removeWhere((element) => selection.keys.contains(element));
-      } else {
+      String oldSelectedValueId = selection[categoryId] ?? "";
+
+      if (oldSelectedValueId == "") {
+        _addSelected(categoryId, newSelectedValueId);
+        _removeUnselected(categoryId);
+      } else if (oldSelectedValueId != newSelectedValueId) {
         selection[categoryId] = newSelectedValueId;
-        unselectedCategoryIds.remove(categoryId);
+      } else {
+        _removeSelected(categoryId, oldSelectedValueId);
+        _addUnselected(categoryId);
       }
     });
 
     widget.onSelectionChanged(selection);
   }
 
+  void _addSelected(categoryId, newSelectedValueId) {
+    selection[categoryId] = newSelectedValueId;
+
+    _listKey.currentState!.insertItem(
+      selection.length,
+      duration: duration,
+    );
+
+    if (selection.length == 1) {
+      _addClearButton();
+    }
+  }
+
+  void _removeSelected(categoryId, oldSelectedValueId) {
+    int index = selection.keys.toList().indexOf(categoryId) + 1;
+
+    selection.remove(categoryId);
+
+    _listKey.currentState!.removeItem(
+      index,
+      duration: duration,
+      (context, animation) => TileTransition(
+        enter: false,
+        animation: animation,
+        child: _createSelectedTile(
+          categoryId: categoryId,
+          selectedValueId: oldSelectedValueId,
+          onSelect: () {},
+        ),
+      ),
+    );
+
+    if (selection.isEmpty) {
+      _removeClearButton();
+    }
+  }
+
+  void _addClearButton() {
+    int index = selection.length + 1;
+
+    _listKey.currentState!.insertItem(
+      index,
+      duration: duration,
+    );
+  }
+
+  void _removeClearButton() {
+    int index = selection.length + 1;
+
+    _listKey.currentState!.removeItem(
+      index,
+      duration: duration,
+      (context, animation) => TileTransition(
+        enter: false,
+        animation: animation,
+        child: _createClearButton(),
+      ),
+    );
+  }
+
+  void _addUnselected(categoryId) {
+    unselectedCategoryIds = List.from(defaultCategoryIds);
+    unselectedCategoryIds
+        .removeWhere((element) => selection.keys.contains(element));
+
+    int index = selection.isNotEmpty
+        ? unselectedCategoryIds.indexOf(categoryId) + selection.length + 2
+        : unselectedCategoryIds.indexOf(categoryId) + 1;
+
+    _listKey.currentState!.insertItem(
+      index,
+      duration: duration,
+    );
+  }
+
+  void _removeUnselected(categoryId) {
+    int index = selection.isNotEmpty
+        ? unselectedCategoryIds.indexOf(categoryId) + selection.length + 2
+        : unselectedCategoryIds.indexOf(categoryId) + 1;
+
+    unselectedCategoryIds.remove(categoryId);
+
+    _listKey.currentState!.removeItem(
+      index,
+      duration: duration,
+      (context, animation) => TileTransition(
+        enter: false,
+        animation: animation,
+        child: _createUnselectedTile(
+          categoryId: categoryId,
+          onSelect: () {},
+        ),
+      ),
+    );
+  }
+
   void resetSelection() {
     setState(() {
+      for (var element in selection.entries) {
+        int index = 1;
+        _listKey.currentState!.removeItem(
+          index,
+          duration: duration,
+          (context, animation) => TileTransition(
+            enter: false,
+            animation: animation,
+            child: _createSelectedTile(
+              categoryId: element.key,
+              selectedValueId: element.value,
+              onSelect: () {},
+            ),
+          ),
+        );
+      }
+
+      var entries = selection.entries.toList();
       selection.clear();
+      _removeClearButton();
+
       unselectedCategoryIds = List.from(defaultCategoryIds);
+      for (var element in entries) {
+        int index = unselectedCategoryIds.indexOf(element.key) + 1;
+        _listKey.currentState!.insertItem(
+          index,
+          duration: duration,
+        );
+      }
+
       widget.onSelectionChanged(selection);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    int itemCount = selection.length + unselectedCategoryIds.length;
-    itemCount = selection.isNotEmpty ? itemCount + 3 : itemCount + 2;
+    int initialItemCount = unselectedCategoryIds.length + 2;
 
-    return ListView.builder(
-        itemCount: itemCount,
-        itemBuilder: (BuildContext context, int index) {
+    return AnimatedList(
+        key: _listKey,
+        initialItemCount: initialItemCount,
+        itemBuilder: (context, index, animation) {
           if (index == 0) {
             return _createTopSpace();
           }
@@ -63,15 +193,24 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
           if (index <= selection.length) {
             final selectedIndex = index - 1;
             final categoryId = selection.keys.elementAt(selectedIndex);
-            return _createSelectedTile(
-              categoryId: categoryId,
-              selectedValueId: selection[categoryId] ?? "",
-              onSelect: select,
+
+            return TileTransition(
+              enter: true,
+              animation: animation,
+              child: _createSelectedTile(
+                categoryId: categoryId,
+                selectedValueId: selection[categoryId] ?? "",
+                onSelect: select,
+              ),
             );
           }
 
           if (selection.isNotEmpty && index == selection.length + 1) {
-            return _createClearButton();
+            return TileTransition(
+              enter: true,
+              animation: animation,
+              child: _createClearButton(),
+            );
           }
 
           if ((selection.isNotEmpty && index < defaultCategoryIds.length + 2) ||
@@ -79,9 +218,14 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
             final unselectedIndex =
                 selection.isNotEmpty ? index - selection.length - 2 : index - 1;
             final categoryId = unselectedCategoryIds.elementAt(unselectedIndex);
-            return _createUnselectedTile(
-              categoryId: categoryId,
-              onSelect: select,
+
+            return TileTransition(
+              enter: true,
+              animation: animation,
+              child: _createUnselectedTile(
+                categoryId: categoryId,
+                onSelect: select,
+              ),
             );
           }
 
