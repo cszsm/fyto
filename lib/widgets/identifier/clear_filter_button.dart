@@ -13,13 +13,13 @@ class ClearFilterButton extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Material(
-      shape: const CircleBorder(),
+      color: Colors.transparent,
       child: Ink(
         padding: EdgeInsets.zero,
         width: 38,
         height: 38,
         decoration: ShapeDecoration(
-          color: colorScheme.tertiaryContainer,
+          color: colorScheme.tertiaryContainer.withOpacity(0.7),
           shape: const CircleBorder(),
         ),
         child: IconButton(
