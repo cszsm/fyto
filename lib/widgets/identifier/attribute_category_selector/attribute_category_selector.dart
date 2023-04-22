@@ -51,64 +51,99 @@ class _AttributeCategorySelectorState extends State<AttributeCategorySelector> {
   @override
   Widget build(BuildContext context) {
     int itemCount = selection.length + unselectedCategoryIds.length;
-    itemCount = selection.isNotEmpty ? itemCount + 1 : itemCount;
+    itemCount = selection.isNotEmpty ? itemCount + 3 : itemCount + 2;
 
-    return ListView.separated(
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 8);
-      },
-      itemCount: itemCount,
-      itemBuilder: (BuildContext context, int index) {
-        if (index < selection.length) {
-          final categoryId = selection.keys.elementAt(index);
-          final selectedValueId = selection[categoryId];
+    return ListView.builder(
+        itemCount: itemCount,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return _createTopSpace();
+          }
 
-          return Padding(
-            padding: EdgeInsets.only(
-              top: index == 0 ? 400 : 0,
-            ),
-            child: SelectedCategoryTile(
+          if (index <= selection.length) {
+            final selectedIndex = index - 1;
+            final categoryId = selection.keys.elementAt(selectedIndex);
+            return _createSelectedTile(
               categoryId: categoryId,
-              selectedValueId: selectedValueId ?? "",
+              selectedValueId: selection[categoryId] ?? "",
               onSelect: select,
-            ),
-          );
-        } else if (selection.isNotEmpty && index == selection.length) {
-          return SizedBox(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 0),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 22),
-                  child: selection.isNotEmpty
-                      ? ClearFilterButton(
-                          onTap: resetSelection,
-                        )
-                      : Container(),
-                ),
-              ),
-            ),
-          );
-        } else {
-          final unselectedIndex = selection.isNotEmpty
-              ? index - selection.length - 1
-              : index - selection.length;
-          final categoryId = unselectedCategoryIds.elementAt(unselectedIndex);
+            );
+          }
 
-          return Padding(
-            padding: EdgeInsets.only(
-              top: index == 0 ? 400 : 0,
-              bottom: index == itemCount - 1 ? 90 : 0,
-            ),
-            child: UnselectedCategoryTile(
+          if (selection.isNotEmpty && index == selection.length + 1) {
+            return _createClearButton();
+          }
+
+          if ((selection.isNotEmpty && index < defaultCategoryIds.length + 2) ||
+              (selection.isEmpty && index < defaultCategoryIds.length + 1)) {
+            final unselectedIndex =
+                selection.isNotEmpty ? index - selection.length - 2 : index - 1;
+            final categoryId = unselectedCategoryIds.elementAt(unselectedIndex);
+            return _createUnselectedTile(
               categoryId: categoryId,
               onSelect: select,
+            );
+          }
+
+          return _createBottomSpace();
+        });
+  }
+
+  Widget _createTopSpace() {
+    return const SizedBox(
+      height: 400,
+    );
+  }
+
+  Widget _createSelectedTile({
+    required String categoryId,
+    required String selectedValueId,
+    required Function onSelect,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+      child: SelectedCategoryTile(
+        categoryId: categoryId,
+        selectedValueId: selectedValueId,
+        onSelect: onSelect,
+      ),
+    );
+  }
+
+  Widget _createClearButton() {
+    return SizedBox(
+      height: 50,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 22),
+            child: ClearFilterButton(
+              onTap: resetSelection,
             ),
-          );
-        }
-      },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _createUnselectedTile({
+    required String categoryId,
+    required Function onSelect,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, left: 10, right: 10),
+      child: UnselectedCategoryTile(
+        categoryId: categoryId,
+        onSelect: onSelect,
+      ),
+    );
+  }
+
+  Widget _createBottomSpace() {
+    return const SizedBox(
+      height: 90,
     );
   }
 }

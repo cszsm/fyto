@@ -21,51 +21,48 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: GestureDetector(
-        onTap: () => onSelect(context),
-        child: Card(
-          color: backgroundColor,
-          elevation: 0,
-          margin: EdgeInsets.zero,
-          child: SizedBox(
-            height: 70,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: icon,
-                  ),
-                  Expanded(
-                    child: child,
-                  ),
-                  onClose != null
-                      ? Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: Ink(
+    return GestureDetector(
+      onTap: () => onSelect(context),
+      child: Card(
+        color: backgroundColor,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        child: SizedBox(
+          height: 70,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: icon,
+                ),
+                Expanded(
+                  child: child,
+                ),
+                onClose != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Ink(
+                          padding: EdgeInsets.zero,
+                          width: 38,
+                          height: 38,
+                          decoration: ShapeDecoration(
+                            color: colorScheme.secondaryContainer,
+                            shape: const CircleBorder(),
+                          ),
+                          child: IconButton(
                             padding: EdgeInsets.zero,
-                            width: 38,
-                            height: 38,
-                            decoration: ShapeDecoration(
-                              color: colorScheme.secondaryContainer,
-                              shape: const CircleBorder(),
-                            ),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: () => onClose!(),
-                              icon: const Icon(
-                                Icons.remove,
-                                size: 28,
-                              ),
+                            onPressed: () => onClose!(),
+                            icon: const Icon(
+                              Icons.remove,
+                              size: 28,
                             ),
                           ),
-                        )
-                      : Container()
-                ],
-              ),
+                        ),
+                      )
+                    : Container()
+              ],
             ),
           ),
         ),
