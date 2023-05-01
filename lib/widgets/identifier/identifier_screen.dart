@@ -3,6 +3,7 @@ import 'package:fyto/data/plants.dart';
 import 'package:fyto/models/plant.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/attribute_category_selector.dart';
+import 'package:fyto/widgets/identifier/identifier_backround.dart';
 import 'package:fyto/widgets/identifier/parallax_image.dart';
 import 'package:fyto/widgets/identifier/plant_details/plant_details.dart';
 import 'package:fyto/widgets/identifier/result_selector/result_selector.dart';
@@ -50,7 +51,6 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final avaliableHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -65,35 +65,8 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
         },
         child: Stack(
           children: [
-            LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                final double listHeight = constraints.maxHeight;
-                return Stack(
-                  children: [
-                    ParallaxImage(
-                      imagePath: 'assets/images/backgrounds/background1.png',
-                      scrollDelta: pos,
-                      parentHeight: listHeight,
-                      avaliableHeight: avaliableHeight,
-                      parallaxNumber: 4,
-                    ),
-                    ParallaxImage(
-                      imagePath: 'assets/images/backgrounds/background2.png',
-                      scrollDelta: pos,
-                      parentHeight: listHeight,
-                      avaliableHeight: avaliableHeight,
-                      parallaxNumber: 3,
-                    ),
-                    ParallaxImage(
-                      imagePath: 'assets/images/backgrounds/background3.png',
-                      scrollDelta: pos,
-                      parentHeight: listHeight,
-                      avaliableHeight: avaliableHeight,
-                      parallaxNumber: 2,
-                    ),
-                  ],
-                );
-              },
+            IdentifierBackground(
+              pos: pos,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 0),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ParallaxImage extends StatelessWidget {
   final String imagePath;
+  final Color color;
   final double scrollDelta;
   final double parentHeight;
   final double avaliableHeight;
@@ -10,6 +11,7 @@ class ParallaxImage extends StatelessWidget {
   const ParallaxImage({
     super.key,
     required this.imagePath,
+    required this.color,
     required this.scrollDelta,
     required this.parentHeight,
     required this.avaliableHeight,
@@ -18,15 +20,13 @@ class ParallaxImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Positioned(
       top: scrollDelta / parentHeight * avaliableHeight / parallaxNumber,
       child: Image.asset(
         imagePath,
         height: avaliableHeight + avaliableHeight / parallaxNumber,
         fit: BoxFit.cover,
-        // color: colorScheme.primary.withOpacity(0.5),
+        color: color,
       ),
     );
   }
