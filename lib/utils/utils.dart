@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:fyto/data/plant_attribute_categories.dart';
 import 'package:fyto/data/plant_attribute_values.dart';
 import 'package:fyto/data/plant_attributes.dart';
 import 'package:fyto/models/plant.dart';
 
 List<String> getAttributeCategoryIds() {
-  return attributeCategories.map((category) => category['id'] as String).toList();
+  return attributeCategories
+      .map((category) => category['id'] as String)
+      .toList();
 }
 
 String _resolve(String id, List<Map<String, Object>> values) {
@@ -18,7 +21,8 @@ String resolveAttributeValueName(String valueId) =>
 
 List<String> resolveAttributeValues(String categoryId) {
   return plantAttributes.firstWhere(
-      (element) => (element['type']) == categoryId)['attributes'] as List<String>;
+          (element) => (element['type']) == categoryId)['attributes']
+      as List<String>;
 }
 
 List<Plant> filterPlants(PlantAttributes criteria, List<Plant> plants) {
@@ -47,10 +51,19 @@ String getAttributeCategoryPictogramPath(categoryId) {
 String getPictogramPath(valueId) {
   final String categoryName =
       resolveAttributeCategoryName(valueId.substring(0, 2))
-      .replaceAll(' ', '_');
+          .replaceAll(' ', '_');
   final String attributeName = resolveAttributeValueName(valueId)
       .replaceAll(' ', '_')
       .replaceAll('*', '');
   return deaccentize(
       'assets/images/pictograms/$categoryName/${categoryName}_$attributeName.svg');
+}
+
+Color mixColors(Color c1, Color c2) {
+  return Color.fromRGBO(
+    (c1.red + c2.red) ~/ 2,
+    (c1.green + c2.green) ~/ 2,
+    (c1.blue + c2.blue) ~/ 2,
+    1,
+  );
 }
