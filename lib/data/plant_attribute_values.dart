@@ -37,7 +37,6 @@ const attributeValues = [
   {'id': '1301', 'name': 'fűrészes'},
   {'id': '1302', 'name': 'csipkés'},
   {'id': '1303', 'name': 'fogas'},
-  {'id': '1304', 'name': 'tövises hullámos'},
   {'id': '1305', 'name': 'tövises'},
   {'id': '1306', 'name': 'hullámos'},
   {'id': '1400', 'name': 'nyeles'},
