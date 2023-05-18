@@ -10,6 +10,7 @@ class DownloadDialog extends StatelessWidget {
       'A növényhatározó megfelelő használatához szükség van a növényeket ábrázoló képekre. Az alkalmazás ezek letöltése nélkül is használható, azonban csak a szöveges leírások lesznek olvashatók. Mivel a képek letöltése nagy adatforgalommal járhat, letöltésük Wi-Fi hálózaton ajánlott.';
   static const now = 'Letöltöm most';
   static const later = 'Később töltöm le';
+  static const test = 'Letöltöm a tesztadatokat';
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +33,22 @@ class DownloadDialog extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const LoaderScreen(),
+                builder: (context) => const LoaderScreen(test: false),
               ),
             );
           },
           child: const Text(now),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoaderScreen(test: true),
+              ),
+            );
+          },
+          child: const Text(test),
         ),
       ],
     );
