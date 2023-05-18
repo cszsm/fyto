@@ -53,11 +53,13 @@ class SelectedCategoryTile extends StatelessWidget {
             style: TextStyle(
               color: colorScheme.secondary,
               fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
           ),
           Text(
             capitalizeFirstLetter(selectedValueName),
-            style: const TextStyle(
+            style: TextStyle(
+              color: colorScheme.onSurface,
               fontSize: 18,
             ),
           )
