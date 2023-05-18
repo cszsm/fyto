@@ -4,7 +4,12 @@ import 'package:fyto/widgets/identifier/identifier_screen.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LoaderScreen extends StatefulWidget {
-  const LoaderScreen({super.key});
+  final bool test;
+
+  const LoaderScreen({
+    super.key,
+    required this.test,
+  });
 
   @override
   State<LoaderScreen> createState() => _LoaderScreenState();
@@ -14,7 +19,7 @@ class _LoaderScreenState extends State<LoaderScreen> {
   Future<void> _downloadImages() async {
     final directory = await getApplicationDocumentsDirectory();
     final loader = ImageLoader(directory);
-    await loader.download();
+    await loader.download(widget.test);
     Navigator.push(
         context,
         MaterialPageRoute(

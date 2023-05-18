@@ -4,22 +4,30 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 
+const baseUrl = 'gs://fytowm.appspot.com/public';
+const pathProd = 'prod';
+const pathTest = 'test';
+const filename = 'plants.zip';
+
 class ImageLoader {
   Directory applicationDirectory;
   late File zipFile;
+
   late Directory plantsDirectory;
+  late Directory testPlantsDirectory;
 
   ImageLoader(this.applicationDirectory) {
-    final zipFilePath = '${applicationDirectory.path}/plants.zip';
+    final zipFilePath = '${applicationDirectory.path}/$filename';
     zipFile = File(zipFilePath);
 
-    final plantsDirectoryPath = '${applicationDirectory.path}/images/plants';
+    final plantsDirectoryPath = '${applicationDirectory.path}/images';
     plantsDirectory = Directory(plantsDirectoryPath);
   }
 
-  Future<void> _downloadZip() async {
-    final ref = FirebaseStorage.instance
-        .refFromURL('gs://fytowm.appspot.com/public/plants.zip');
+  Future<void> _downloadZip(bool test) async {
+    final refUrl =
+        test ? '$baseUrl/$pathTest/$filename' : '$baseUrl/$pathProd/$filename';
+    final ref = FirebaseStorage.instance.refFromURL(refUrl);
 
     final completer = Completer();
 
@@ -53,8 +61,8 @@ class ImageLoader {
     }
   }
 
-  Future<void> download() async {
-    await _downloadZip();
+  Future<void> download(bool test) async {
+    await _downloadZip(test);
     await _unzip();
     await zipFile.delete();
 
