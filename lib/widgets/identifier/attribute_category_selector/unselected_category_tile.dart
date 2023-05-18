@@ -32,7 +32,7 @@ class UnselectedCategoryTile extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return CategoryTile(
-      backgroundColor: colorScheme.surfaceVariant.withOpacity(0.7),
+      backgroundColor: colorScheme.surfaceVariant.withOpacity(0.8),
       icon: categoryTileIcon(
         path: getAttributeCategoryPictogramPath(categoryId),
         color: colorScheme.onSurfaceVariant,
@@ -42,8 +42,9 @@ class UnselectedCategoryTile extends StatelessWidget {
       child: Text(
         capitalizeFirstLetter(categoryName),
         style: TextStyle(
-          color: colorScheme.onSurface,
+          color: colorScheme.onSurfaceVariant,
           fontSize: 14,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
