@@ -19,7 +19,7 @@ class ClearFilterButton extends StatelessWidget {
         width: 38,
         height: 38,
         decoration: ShapeDecoration(
-          color: colorScheme.tertiaryContainer.withOpacity(0.7),
+          color: colorScheme.tertiaryContainer.withOpacity(0.8),
           shape: const CircleBorder(),
         ),
         child: IconButton(

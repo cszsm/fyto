@@ -4,7 +4,6 @@ import 'package:fyto/models/plant.dart';
 import 'package:fyto/utils/utils.dart';
 import 'package:fyto/widgets/identifier/attribute_category_selector/attribute_category_selector.dart';
 import 'package:fyto/widgets/identifier/identifier_backround.dart';
-import 'package:fyto/widgets/identifier/parallax_image.dart';
 import 'package:fyto/widgets/identifier/plant_details/plant_details.dart';
 import 'package:fyto/widgets/identifier/result_selector/result_selector.dart';
 
@@ -17,7 +16,7 @@ class IdentifierScreen extends StatefulWidget {
 
 class _IdentifierScreenState extends State<IdentifierScreen> {
   List<Plant> foundPlants = [];
-  String text = 'Válasszon jellemzőt';
+  String text = '';
   bool isPlantFound = false;
   bool fabEnabled = false;
 
@@ -28,12 +27,8 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
     final p = plants.map((e) => Plant.fromRaw(e)).toList();
     foundPlants = filterPlants(criteria, p);
     setState(() {
-      if (selection.isEmpty) {
-        text = 'Válasszon jellemzőt';
-        isPlantFound = false;
-        fabEnabled = false;
-      } else if (foundPlants.length > 1) {
-        text = '${foundPlants.length} talált növény';
+      if (foundPlants.length > 1) {
+        text = '${foundPlants.length} növény megjelenítése';
         isPlantFound = false;
         fabEnabled = true;
       } else if (foundPlants.length == 1) {
@@ -46,6 +41,12 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
         fabEnabled = false;
       }
     });
+  }
+
+  @override
+  void initState() {
+    _filterPlants({});
+    super.initState();
   }
 
   @override
