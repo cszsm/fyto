@@ -26,6 +26,10 @@ List<String> resolveAttributeValues(String categoryId) {
 }
 
 List<Plant> filterPlants(PlantAttributes criteria, List<Plant> plants) {
+  if (criteria.attributes.isEmpty) {
+    return plants;
+  }
+  
   return plants.where((plant) => plant.isFit(criteria)).toList();
 }
 
