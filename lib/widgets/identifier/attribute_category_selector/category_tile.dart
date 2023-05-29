@@ -21,12 +21,14 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return GestureDetector(
-      onTap: () => onSelect(context),
-      child: Card(
-        color: backgroundColor,
-        elevation: 0,
-        margin: EdgeInsets.zero,
+    return Card(
+      color: backgroundColor,
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      child: InkWell(
+        splashColor: colorScheme.secondaryContainer,
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => onSelect(context),
         child: SizedBox(
           height: 70,
           child: Padding(

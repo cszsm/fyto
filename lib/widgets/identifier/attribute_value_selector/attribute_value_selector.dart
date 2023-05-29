@@ -39,7 +39,7 @@ class AttributeValueSelector extends StatelessWidget {
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 childAspectRatio: 1,
-                padding: const EdgeInsets.all(4),
+                padding: const EdgeInsets.only(left: 4, right: 4, bottom: 4),
                 children: createAttributeValueTiles(context),
               ),
             ),

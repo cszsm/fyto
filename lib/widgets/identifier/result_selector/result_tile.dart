@@ -46,15 +46,12 @@ class ResultTile extends StatelessWidget {
               children: [
                 AspectRatio(
                   aspectRatio: 1,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        clipBehavior: Clip.hardEdge,
-                        child: snapshot.data,
-                      ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: snapshot.data,
                     ),
                   ),
                 ),
