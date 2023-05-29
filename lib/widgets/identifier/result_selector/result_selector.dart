@@ -21,10 +21,11 @@ class ResultSelector extends StatelessWidget {
             Expanded(
               child: GridView.count(
                 controller: scrollController,
-                crossAxisCount: 3,
-                childAspectRatio: 1,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 1,
+                padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                crossAxisCount: 2,
+                childAspectRatio: 0.85,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
                 children: results.map((e) => ResultTile(e)).toList(),
               ),
             ),
@@ -32,7 +33,6 @@ class ResultSelector extends StatelessWidget {
         );
       },
       expand: false,
-      maxChildSize: 0.9,
     );
   }
 }

@@ -38,29 +38,44 @@ class ResultTile extends StatelessWidget {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PlantDetails(plant)));
           },
-          child: Stack(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-                height: MediaQuery.of(context).size.height / 3,
-                child: FittedBox(
-                  child: snapshot.data,
-                  fit: BoxFit.cover,
-                  clipBehavior: Clip.hardEdge,
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    plant.name,
-                    style:
-                        TextStyle(color: colorScheme.onPrimary, fontSize: 16),
-                    textAlign: TextAlign.center,
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            color: colorScheme.secondaryContainer,
+            child: Column(
+              children: [
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        clipBehavior: Clip.hardEdge,
+                        child: snapshot.data,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        plant.name,
+                        style: TextStyle(
+                          color: colorScheme.onSecondaryContainer,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
