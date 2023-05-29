@@ -14,14 +14,16 @@ class AttributeValueTile extends StatelessWidget {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final String attributeName = resolveAttributeValueName(valueId);
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pop(valueId);
-      },
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          color: selected ? colorScheme.secondaryContainer : Colors.transparent,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(28),
+      child: Material(
+        color: selected ? colorScheme.secondaryContainer : Colors.transparent,
+        child: InkWell(
+          splashColor: selected ? colorScheme.surface : colorScheme.secondaryContainer,
+          borderRadius: BorderRadius.circular(28),
+          onTap: () {
+            Navigator.of(context).pop(valueId);
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -32,11 +34,14 @@ class AttributeValueTile extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   child: SvgPicture.asset(
                     getPictogramPath(valueId),
-                    color: colored
+                    colorFilter: colored
                         ? null
-                        : selected
-                            ? colorScheme.onSecondaryContainer
-                            : colorScheme.onSurface,
+                        : ColorFilter.mode(
+                            selected
+                                ? colorScheme.onSecondaryContainer
+                                : colorScheme.onSurface,
+                            BlendMode.srcIn,
+                          ),
                     placeholderBuilder: (context) => SizedBox(
                       height: 60,
                       child: Center(
