@@ -90,10 +90,11 @@ class _IdentifierScreenState extends State<IdentifierScreen> {
                 : () {
                     showModalBottomSheet(
                       context: context,
+                      useSafeArea: true,
+                      isScrollControlled: true,
                       builder: (context) {
                         return ResultSelector(foundPlants);
                       },
-                      isScrollControlled: true,
                     );
                   })
             : null,

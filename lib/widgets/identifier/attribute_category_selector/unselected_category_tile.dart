@@ -19,10 +19,11 @@ class UnselectedCategoryTile extends StatelessWidget {
   void openValueSelector(BuildContext context) async {
     var result = await showModalBottomSheet(
       context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
       builder: (context) {
         return AttributeValueSelector(categoryId, null);
       },
-      isScrollControlled: true,
     );
     onSelect(categoryId, result);
   }
