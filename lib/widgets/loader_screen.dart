@@ -16,10 +16,20 @@ class LoaderScreen extends StatefulWidget {
 }
 
 class _LoaderScreenState extends State<LoaderScreen> {
+  double progress = 0;
+
+  _LoaderScreenState() {
+    _downloadImages();
+  }
+
   Future<void> _downloadImages() async {
     final directory = await getApplicationDocumentsDirectory();
     final loader = ImageLoader(directory);
-    await loader.download(widget.test);
+    await for (final loadingProgress in loader.download(widget.test)) {
+      setState(() {
+        progress = loadingProgress;
+      });
+    }
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -29,8 +39,6 @@ class _LoaderScreenState extends State<LoaderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _downloadImages();
-
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final availableHeigth = MediaQuery.of(context).size.height;
 
@@ -44,8 +52,10 @@ class _LoaderScreenState extends State<LoaderScreen> {
             fit: BoxFit.cover,
             color: colorScheme.tertiary.withOpacity(0.1),
           ),
-          const Center(
-            child: CircularProgressIndicator(),
+          Center(
+            child: CircularProgressIndicator(
+              value: progress,
+            ),
           )
         ],
       ),
